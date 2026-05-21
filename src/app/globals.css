@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (pointer: fine) {
+  * {
+    cursor: none;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 0.7; transform: translateY(0); }
+}
+
+:root {
+  /* Brand Palette — Deep Navy → Indigo → Violet */
+  --brand-bg-deep:    #07071a;
+  --brand-bg-mid:     #0d0d2b;
+  --brand-bg-surface: #111136;
+  --brand-accent-1:   #6366f1; /* indigo-500 */
+  --brand-accent-2:   #8b5cf6; /* violet-500 */
+  --brand-accent-3:   #06b6d4; /* cyan-500  */
+  --brand-glow:       rgba(99, 102, 241, 0.18);
+}
+
+body {
+  color: #f4f4f8;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.22) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 90% 80%,  rgba(139,92,246,0.14) 0%, transparent 60%),
+    linear-gradient(180deg, #07071a 0%, #0b0b24 40%, #0d0d2b 100%);
+  background-attachment: fixed;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* lenis required styles */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
