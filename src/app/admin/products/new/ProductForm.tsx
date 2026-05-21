@@ -174,7 +174,7 @@ export default function NewProductForm() {
               <label className="block text-xs uppercase tracking-widest font-semibold text-zinc-400">
                 Product Image Gallery
               </label>
-              <p className="text-zinc-500 text-xs mt-0.5">Upload up to 8 images. The first uploaded is set as "Main" by default.</p>
+              <p className="text-zinc-500 text-xs mt-0.5">Upload up to 8 images. The first uploaded is set as &quot;Main&quot; by default.</p>
             </div>
 
             {/* Cloudinary Widget Trigger */}
