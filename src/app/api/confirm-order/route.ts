@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/confirm-order?beacon=<tracker>
@@ -96,6 +96,7 @@ export async function GET(req: NextRequest) {
     try {
       const shortId = fullOrder.id.slice(0, 8).toUpperCase();
       const adminEmail = 'hello@cordonnier.co';
+      const resend = new Resend(process.env.RESEND_API_KEY);
 
       const { data: emailData, error: emailError } = await resend.emails.send({
         from: 'Cordonnier Orders <onboarding@resend.dev>', // swap for orders@cordonnier.co once domain is verified
