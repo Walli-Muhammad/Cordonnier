@@ -9,16 +9,13 @@
  */
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
 
-if (!supabaseUrl || !serviceRoleKey) {
-  throw new Error(
-    'Missing SUPABASE_SERVICE_ROLE_KEY. Add it to .env.local (server-only).'
-  );
-}
-
-export const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey, {
+// NOTE: We intentionally do NOT throw here at module level.
+// Throwing at import time crashes Next.js static page-data collection during `next build`.
+// A runtime error will still surface if a route is called without these env vars configured.
+export const supabaseAdmin = createClient(supabaseUrl || 'https://placeholder.supabase.co', serviceRoleKey || 'placeholder', {
   auth: {
     // Prevents the service client from trying to persist session to localStorage
     persistSession: false,
