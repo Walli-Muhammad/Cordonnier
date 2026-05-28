@@ -22,6 +22,34 @@ function formatPrice(amount: number): string {
 }
 
 // =============================================
+// Premium Sizing Charts (Metric & Imperial) for Hute Category
+// =============================================
+interface SizeRow {
+  eu: string;
+  usW: string;
+  usM: string;
+  lengthCm: string;
+  lengthIn: string;
+}
+
+const HUTE_SIZES: SizeRow[] = [
+  { eu: '35', usW: '5', usM: '-', lengthCm: '22.8', lengthIn: '9.0' },
+  { eu: '36', usW: '5.5', usM: '-', lengthCm: '23.4', lengthIn: '9.2' },
+  { eu: '37', usW: '6', usM: '-', lengthCm: '24.1', lengthIn: '9.4' },
+  { eu: '38', usW: '7', usM: '5', lengthCm: '24.7', lengthIn: '9.7' },
+  { eu: '39', usW: '8', usM: '6', lengthCm: '25.4', lengthIn: '10.0' },
+  { eu: '40', usW: '9', usM: '7', lengthCm: '26.0', lengthIn: '10.2' },
+  { eu: '41', usW: '10', usM: '7.5', lengthCm: '26.7', lengthIn: '10.5' },
+  { eu: '42', usW: '11', usM: '8.5', lengthCm: '27.3', lengthIn: '10.7' },
+  { eu: '43', usW: '11.5', usM: '9.5', lengthCm: '28.0', lengthIn: '11.0' },
+  { eu: '44', usW: '12', usM: '10', lengthCm: '28.6', lengthIn: '11.2' },
+  { eu: '45', usW: '-', usM: '11', lengthCm: '29.3', lengthIn: '11.6' },
+  { eu: '46', usW: '-', usM: '12', lengthCm: '29.9', lengthIn: '11.7' },
+  { eu: '47', usW: '-', usM: '13', lengthCm: '30.6', lengthIn: '12.0' },
+  { eu: '48', usW: '-', usM: '14', lengthCm: '31.2', lengthIn: '12.2' }
+];
+
+// =============================================
 // Dynamic Hover-Fade Product Card Component
 // =============================================
 interface ProductCardProps {
@@ -62,7 +90,7 @@ function ProductCard({ product, onClick }: ProductCardProps) {
     >
       <motion.div
         layoutId={`image-container-${product.id}`}
-        className="relative aspect-[3/4] w-full overflow-hidden bg-[#111136] rounded-xl ring-1 ring-indigo-900/30"
+        className="relative aspect-square w-full overflow-hidden bg-[#111136] rounded-xl ring-1 ring-indigo-900/30"
       >
         <AnimatePresence mode="popLayout">
           <motion.img
@@ -123,6 +151,12 @@ export default function ProductGrid({ products }: ProductGridProps) {
   const { addItem, openCart } = useCartStore();
   const { selectedCategory } = useUIStore();
 
+  // Premium UI state for detailed product descriptions and sizes
+  const [activeTab, setActiveTab] = useState<'overview' | 'sizing'>('overview');
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [sizeUnit, setSizeUnit] = useState<'metric' | 'imperial'>('metric');
+  const [sizeError, setSizeError] = useState(false);
+
   const filteredProducts = selectedCategory
     ? products.filter((p) => p.category?.toLowerCase() === selectedCategory.toLowerCase())
     : products;
@@ -132,16 +166,25 @@ export default function ProductGrid({ products }: ProductGridProps) {
   // Sync selected index back to 0 on detail close/switch
   useEffect(() => {
     setSelectedImageIdx(0);
+    setActiveTab('overview');
+    setSelectedSize(null);
+    setSizeError(false);
   }, [selectedId]);
 
   const handleAddToCart = (product: Product) => {
+    const isHute = product.category?.toLowerCase() === 'hute';
+    if (isHute && !selectedSize) {
+      setSizeError(true);
+      return;
+    }
+
     addItem({
       productId: product.id,
       productTitle: product.title,
       productImage: product.image_url,
-      variantId: `${product.id}_default`,
+      variantId: `${product.id}_${selectedSize || 'default'}`,
       variant: {
-        size: null,
+        size: selectedSize ? `EU ${selectedSize}` : null,
         color: null,
         color_hex: null,
         sku: null,
@@ -277,21 +320,156 @@ export default function ProductGrid({ products }: ProductGridProps) {
                   {formatPrice(selectedProduct.base_price)}
                 </motion.span>
 
-                {selectedProduct.description && (
-                  <p className="text-zinc-400 font-light text-base mb-8 leading-relaxed max-w-md">
-                    {selectedProduct.description}
-                  </p>
+                {/* Sizing/Overview Tab Switchers */}
+                {selectedProduct.category?.toLowerCase() === 'hute' && (
+                  <div className="flex gap-6 border-b border-zinc-800/80 mb-6 pb-2 shrink-0">
+                    <button
+                      onClick={() => setActiveTab('overview')}
+                      className={`text-xs uppercase font-bold tracking-widest pb-1 transition-all relative ${
+                        activeTab === 'overview' ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'
+                      }`}
+                    >
+                      Overview
+                      {activeTab === 'overview' && (
+                        <motion.div
+                          layoutId="activeTabBorder"
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-500"
+                        />
+                      )}
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('sizing')}
+                      className={`text-xs uppercase font-bold tracking-widest pb-1 transition-all relative ${
+                        activeTab === 'sizing' ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'
+                      }`}
+                    >
+                      Size Chart
+                      {activeTab === 'sizing' && (
+                        <motion.div
+                          layoutId="activeTabBorder"
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-500"
+                        />
+                      )}
+                    </button>
+                  </div>
                 )}
 
-                {/* POD Customisation Placeholder Notice */}
-                {selectedProduct.is_pod && (
-                  <div className="mb-8 p-4 rounded-xl border border-indigo-500/30 bg-indigo-500/10">
-                    <p className="text-indigo-300 text-sm font-medium tracking-wide">
-                      🎨 This is a Print-on-Demand item.
+                {/* Tab content */}
+                {activeTab === 'overview' ? (
+                  <>
+                    {selectedProduct.description && (
+                      <p className="text-zinc-400 font-light text-sm md:text-base mb-6 leading-relaxed max-w-md">
+                        {selectedProduct.description}
+                      </p>
+                    )}
+
+                    {/* POD Customisation Placeholder Notice */}
+                    {selectedProduct.is_pod && (
+                      <div className="mb-6 p-4 rounded-xl border border-indigo-500/30 bg-indigo-500/10">
+                        <p className="text-indigo-300 text-xs font-semibold uppercase tracking-wider">
+                          🎨 Print-on-Demand
+                        </p>
+                        <p className="text-indigo-300/60 text-[11px] mt-1">
+                          Customisation options (name, upload, etc.) are available in the 3D Studio editor.
+                        </p>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="mb-6">
+                    {/* Unit Switcher */}
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Conversions</span>
+                      <div className="flex rounded-full bg-zinc-950 p-0.5 border border-zinc-800">
+                        <button
+                          onClick={() => setSizeUnit('metric')}
+                          className={`px-3 py-1 text-[9px] font-bold rounded-full uppercase transition-all ${
+                            sizeUnit === 'metric' ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-900/50' : 'text-zinc-500 hover:text-zinc-300'
+                          }`}
+                        >
+                          Metric
+                        </button>
+                        <button
+                          onClick={() => setSizeUnit('imperial')}
+                          className={`px-3 py-1 text-[9px] font-bold rounded-full uppercase transition-all ${
+                            sizeUnit === 'imperial' ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-900/50' : 'text-zinc-500 hover:text-zinc-300'
+                          }`}
+                        >
+                          Imperial
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Size Table */}
+                    <div className="overflow-x-auto border border-zinc-800 rounded-xl bg-zinc-950/40 p-1 select-none max-h-56 overflow-y-auto scrollbar-thin">
+                      <table className="w-full text-[10px] md:text-xs text-zinc-400 border-collapse">
+                        <thead>
+                          <tr className="border-b border-zinc-800 text-[9px] text-zinc-500 uppercase tracking-widest bg-zinc-950/80">
+                            <th className="py-2 px-2 text-left font-semibold">EU Size</th>
+                            <th className="py-2 px-2 text-left font-semibold">US Women</th>
+                            <th className="py-2 px-2 text-left font-semibold">US Men</th>
+                            <th className="py-2 px-2 text-left font-semibold">Insock ({sizeUnit === 'metric' ? 'cm' : 'in'})</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {HUTE_SIZES.map((row) => (
+                            <tr 
+                              key={row.eu} 
+                              className={`border-b border-zinc-900/50 last:border-0 hover:bg-zinc-900/30 transition-colors ${
+                                selectedSize === row.eu ? 'bg-indigo-950/20 text-white font-medium' : ''
+                              }`}
+                            >
+                              <td className="py-1.5 px-2 font-mono text-zinc-300">{row.eu}</td>
+                              <td className="py-1.5 px-2">{row.usW}</td>
+                              <td className="py-1.5 px-2">{row.usM}</td>
+                              <td className="py-1.5 px-2 font-mono">{sizeUnit === 'metric' ? row.lengthCm : row.lengthIn}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <p className="text-[10px] text-zinc-600 italic mt-2 font-light">
+                      *Might got 1-2mm Difference
                     </p>
-                    <p className="text-indigo-300/60 text-xs mt-1">
-                      Customisation options (name, upload, etc.) will appear here in Phase 5.
-                    </p>
+                  </div>
+                )}
+
+                {/* Size Selection Grid */}
+                {selectedProduct.category?.toLowerCase() === 'hute' && (
+                  <div className="mb-6 shrink-0">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold">Select Size (EU)</span>
+                      {selectedSize && (
+                        <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">
+                          EU {selectedSize} Selected
+                        </span>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-7 gap-1 max-w-sm">
+                      {HUTE_SIZES.map((s) => (
+                        <button
+                          key={s.eu}
+                          onClick={() => {
+                            setSelectedSize(s.eu);
+                            setSizeError(false);
+                          }}
+                          className={`h-9 text-[10px] font-bold rounded-lg border uppercase transition-all duration-200 flex items-center justify-center ${
+                            selectedSize === s.eu
+                              ? 'bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.4)]'
+                              : sizeError
+                              ? 'border-red-500/50 text-red-400 hover:border-red-400 bg-red-950/10'
+                              : 'border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-white bg-zinc-950/20'
+                          }`}
+                        >
+                          {s.eu}
+                        </button>
+                      ))}
+                    </div>
+                    {sizeError && (
+                      <p className="text-red-400 text-[10px] font-semibold mt-2 animate-bounce">
+                        ⚠️ Please choose a shoe size before adding to cart.
+                      </p>
+                    )}
                   </div>
                 )}
 
