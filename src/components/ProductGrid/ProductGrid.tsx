@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import MagneticButton from '@/components/Interactions/MagneticButton';
 import { useCartStore } from '@/store/cart';
 import type { Product } from '@/lib/supabase';
+import { useUIStore } from '@/store/ui';
 
 // =============================================
 // Props — receives live data from Server Component
@@ -120,6 +121,11 @@ export default function ProductGrid({ products }: ProductGridProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
   const { addItem, openCart } = useCartStore();
+  const { selectedCategory } = useUIStore();
+
+  const filteredProducts = selectedCategory
+    ? products.filter((p) => p.category?.toLowerCase() === selectedCategory.toLowerCase())
+    : products;
 
   const selectedProduct = products.find((p) => p.id === selectedId) ?? null;
 
@@ -163,16 +169,16 @@ export default function ProductGrid({ products }: ProductGridProps) {
       {/* Section heading */}
       <div className="mb-16 max-w-7xl mx-auto flex items-end justify-between">
         <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white drop-shadow-[0_0_25px_rgba(99,102,241,0.4)]">
-          The Drop
+          {selectedCategory ? `The Drop — ${selectedCategory}` : 'The Drop'}
         </h2>
         <span className="text-zinc-500 text-sm tracking-widest uppercase hidden md:block">
-          {products.length} pieces
+          {filteredProducts.length} pieces
         </span>
       </div>
 
       {/* Product Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mx-auto max-w-7xl">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard
             key={product.id}
             product={product}

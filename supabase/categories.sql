@@ -20,15 +20,5 @@ CREATE POLICY "Categories are publicly readable"
 
 -- Seed default categories matching your products
 INSERT INTO public.categories (name) VALUES
-  ('Runners'),
-  ('Low-Tops'),
-  ('Hi-Tops'),
-  ('Slip-Ons'),
-  ('Trainers'),
-  ('Racers'),
-  ('Heavyweight'),
-  ('Graphic Tees'),
-  ('Outerwear'),
-  ('Bottoms'),
-  ('Accessories')
+  ('Hute')
 ON CONFLICT DO NOTHING;

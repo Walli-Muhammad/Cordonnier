@@ -127,10 +127,7 @@ export async function deleteProduct(id: string): Promise<{ success: boolean; err
 
 // ─── CATEGORY ACTIONS ──────────────────────────────────────────────────────────
 
-const DEFAULT_CATEGORIES = [
-  'Runners', 'Low-Tops', 'Hi-Tops', 'Slip-Ons', 'Trainers', 'Racers',
-  'Heavyweight', 'Graphic Tees', 'Outerwear', 'Bottoms', 'Accessories'
-];
+const DEFAULT_CATEGORIES = ['Hute'];
 
 export async function getCategories(): Promise<{ id: string; name: string }[]> {
   try {

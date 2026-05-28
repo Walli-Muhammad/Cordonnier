@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { useScrambleText } from '@/hooks/useScrambleText';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Zap, Truck } from 'lucide-react';
+import { useUIStore } from '@/store/ui';
 
 const REVIEWS = [
   { text: "The sole print is flawless after months of wear. Zero cracking or peeling.", author: "Bilal A." },
@@ -18,9 +19,29 @@ const MARQUEE_REVIEWS = [...REVIEWS, ...REVIEWS, ...REVIEWS];
 export default function Hero() {
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const { selectedCategory } = useUIStore();
+
+  const targetText = selectedCategory ? selectedCategory.toUpperCase() : 'CORDONNIER';
 
   // Auto-decoding cipher — runs purely in JS
-  const decodedText = useScrambleText('CORDONNIER', 2000, 500);
+  const decodedText = useScrambleText(targetText, 2000, 500);
+
+  const getCategorySubtitle = (category: string) => {
+    if (category.toLowerCase() === 'hute') {
+      return 'Classic High Top Shoes';
+    }
+    return `${category} Collection`;
+  };
+
+  const subtitleText = selectedCategory 
+    ? getCategorySubtitle(selectedCategory)
+    : 'Premium Custom Sneakers';
+
+  const showHeadline = !hasInteracted || selectedCategory !== null;
+
+  const videoSrc = selectedCategory?.toLowerCase() === 'hute' 
+    ? '/hero-haute.mp4' 
+    : '/hero-bg.mp4';
 
   // Initial video load animation
   useEffect(() => {
@@ -62,7 +83,8 @@ export default function Hero() {
         className="absolute inset-0 z-0 origin-center"
       >
         <video
-          src="/hero-bg.mp4"
+          key={videoSrc}
+          src={videoSrc}
           autoPlay loop muted playsInline preload="auto"
           className="w-full h-full object-cover"
         />
@@ -70,10 +92,10 @@ export default function Hero() {
       </div>
 
       <AnimatePresence mode="wait">
-        {!hasInteracted ? (
+        {showHeadline ? (
           /* ── Typography Overlay ── */
           <motion.div
-            key="headline"
+            key={`headline-${targetText}`}
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50, scale: 0.95 }}
@@ -86,20 +108,22 @@ export default function Hero() {
             >
               {decodedText}
             </h1>
-            <p className="mt-4 md:mt-8 max-w-sm text-xs md:text-base tracking-[0.4em] uppercase text-zinc-300 font-light">
-              Premium Custom Sneakers
+            <p className="mt-4 md:mt-8 max-w-lg text-xs md:text-base tracking-[0.4em] uppercase text-zinc-300 font-light text-center leading-relaxed">
+              {subtitleText}
             </p>
 
-            {/* Scroll/Click Indicator */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2, duration: 1 }}
-              className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-            >
-              <span className="text-[9px] tracking-[0.3em] uppercase text-zinc-400">Interact to Explore</span>
-              <div className="w-[1px] h-12 bg-gradient-to-b from-zinc-400 to-transparent animate-pulse" />
-            </motion.div>
+            {/* Scroll/Click Indicator — only show on Cordonnier default state */}
+            {!selectedCategory && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2, duration: 1 }}
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+              >
+                <span className="text-[9px] tracking-[0.3em] uppercase text-zinc-400">Interact to Explore</span>
+                <div className="w-[1px] h-12 bg-gradient-to-b from-zinc-400 to-transparent animate-pulse" />
+              </motion.div>
+            )}
           </motion.div>
         ) : (
           /* ── Animated Stats & Social Proof Overlay ── */

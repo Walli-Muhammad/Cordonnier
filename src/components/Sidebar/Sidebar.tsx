@@ -4,6 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { X } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
+import { useUIStore } from '@/store/ui';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -11,15 +15,30 @@ interface SidebarProps {
   user: User | null;
 }
 
-const CATEGORIES = [
-  { name: 'Anime', href: '/category/anime' },
-  { name: 'Sports', href: '/category/sports' },
-  { name: 'Originals', href: '/category/originals' },
-  { name: 'Hot Drops', href: '/category/hot-drops' },
-  { name: 'Accessories', href: '/category/accessories' },
-];
-
 export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const { selectedCategory, setSelectedCategory } = useUIStore();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    async function loadCategories() {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('*')
+        .order('name', { ascending: true });
+        
+      if (data && data.length > 0) {
+        setCategories(data);
+      } else {
+        setCategories([{ id: 'default-hute', name: 'Hute' }]);
+      }
+    }
+    
+    if (isOpen) {
+      loadCategories();
+    }
+  }, [isOpen]);
   return (
     <AnimatePresence>
       {isOpen && (
@@ -84,16 +103,43 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-600 mb-4 px-2">
                 Shop by Category
               </p>
-              <div className="flex flex-col">
-                {CATEGORIES.map((category) => (
-                  <Link
-                    key={category.name}
-                    href={category.href}
-                    onClick={onClose}
-                    className="px-4 py-3 text-sm font-medium text-zinc-300 hover:text-white hover:bg-zinc-900 hover:translate-x-1 transition-all rounded-xl"
+              <div className="flex flex-col gap-1.5">
+                {/* Shop All Button */}
+                <button
+                  onClick={() => {
+                    setSelectedCategory(null);
+                    if (pathname !== '/') {
+                      router.push('/');
+                    }
+                    onClose();
+                  }}
+                  className={`px-4 py-3 text-left text-sm font-medium transition-all rounded-xl border ${
+                    selectedCategory === null
+                      ? 'text-white bg-indigo-600/20 border-indigo-500/30'
+                      : 'text-zinc-300 border-transparent hover:text-white hover:bg-zinc-900 hover:translate-x-1'
+                  }`}
+                >
+                  Shop All
+                </button>
+
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => {
+                      setSelectedCategory(category.name);
+                      if (pathname !== '/') {
+                        router.push('/');
+                      }
+                      onClose();
+                    }}
+                    className={`px-4 py-3 text-left text-sm font-medium transition-all rounded-xl border ${
+                      selectedCategory === category.name
+                        ? 'text-white bg-indigo-600/20 border-indigo-500/30'
+                        : 'text-zinc-300 border-transparent hover:text-white hover:bg-zinc-900 hover:translate-x-1'
+                    }`}
                   >
                     {category.name}
-                  </Link>
+                  </button>
                 ))}
               </div>
             </div>
