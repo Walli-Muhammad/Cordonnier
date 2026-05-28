@@ -110,10 +110,10 @@ export async function updateProduct(
 export async function deleteProduct(id: string): Promise<{ success: boolean; error: string | null }> {
   if (!id) return { success: false, error: 'Product ID is required.' };
 
-  // Soft delete to protect references in order history
+  // Hard delete — fully removes the row from the database
   const { error } = await supabaseAdmin
     .from('products')
-    .update({ is_active: false })
+    .delete()
     .eq('id', id);
 
   if (error) {
