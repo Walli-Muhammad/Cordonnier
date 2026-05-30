@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MagneticButton from '@/components/Interactions/MagneticButton';
 import { useCartStore } from '@/store/cart';
@@ -244,6 +244,27 @@ export default function ProductGrid({ products }: ProductGridProps) {
 
   const selectedProduct = products.find((p) => p.id === selectedId) ?? null;
 
+  // Close on Escape key
+  const closeOverlay = useCallback(() => setSelectedId(null), []);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeOverlay();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [closeOverlay]);
+
+  // Lock body scroll when overlay is open, unlock on close
+  useEffect(() => {
+    if (selectedId) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [selectedId]);
+
   // Sync selected index back to 0 on detail close/switch
   useEffect(() => {
     setSelectedImageIdx(0);
@@ -319,16 +340,17 @@ export default function ProductGrid({ products }: ProductGridProps) {
       {/* ==============================
           Expanded Product Overlay
       ============================== */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {selectedId && selectedProduct && (
           <motion.div
             key="overlay-bg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
+            style={{ pointerEvents: 'auto' }}
             className="fixed inset-0 z-[990] flex items-center justify-center p-4 md:p-12 lg:p-24 bg-[#07071a]/90 backdrop-blur-md"
-            onClick={() => setSelectedId(null)}
+            onClick={closeOverlay}
           >
             <motion.div
               layoutId={`card-${selectedProduct.id}`}
@@ -387,11 +409,8 @@ export default function ProductGrid({ products }: ProductGridProps) {
                 )}
               </div>
 
-              {/* Info Panel */}
-              <motion.div
-                layoutId={`info-${selectedProduct.id}`}
-                className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 overflow-y-auto"
-              >
+              {/* Info Panel — no layoutId here to avoid ghost pointer-event layers after exit */}
+              <div className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 overflow-y-auto">
                 {/* Category & Rarity Badge */}
                 <motion.div className="flex flex-wrap items-center gap-2 mb-3 shrink-0">
                   <motion.span
@@ -682,7 +701,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
                     {selectedProduct.show_stock && selectedProduct.stock_count !== undefined && selectedProduct.stock_count <= 0 ? 'Sold Out' : 'Add to Cart'}
                   </button>
                 </MagneticButton>
-              </motion.div>
+              </div>
             </motion.div>
           </motion.div>
         )}
