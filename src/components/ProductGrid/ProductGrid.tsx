@@ -133,16 +133,14 @@ function ProductCard({ product, onClick }: ProductCardProps) {
   const discountPercent = isOnSale ? Math.round((1 - (product.sale_price || 0) / product.base_price) * 100) : 0;
 
   return (
-    <motion.div
-      layoutId={`card-${product.id}`}
+    <div
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       data-cursor="view"
       className="group relative flex flex-col gap-4 cursor-none"
     >
-      <motion.div
-        layoutId={`image-container-${product.id}`}
+      <div
         className={`relative aspect-square w-full overflow-hidden bg-[#111136] rounded-xl ring-1 transition-all duration-300 ${rarity.cardRing} ${rarity.shadowGlow}`}
       >
         <AnimatePresence mode="popLayout">
@@ -179,29 +177,25 @@ function ProductCard({ product, onClick }: ProductCardProps) {
         >
           {rarity.emoji} {rarity.label.split(' ')[1] || rarity.label}
         </span>
-      </motion.div>
+      </div>
 
-      <motion.div
-        layoutId={`info-${product.id}`}
+      <div
         className="flex justify-between items-start px-1"
       >
         <div className="flex flex-col gap-0.5">
-          <motion.span
-            layoutId={`category-${product.id}`}
+          <span
             className="text-[10px] uppercase tracking-widest text-zinc-500 font-medium"
           >
             {product.category || 'Sneaker'} · <span style={{ color: rarity.colorHex }} className="font-bold">{rarity.label}</span>
-          </motion.span>
-          <motion.h3
-            layoutId={`title-${product.id}`}
+          </span>
+          <h3
             className="text-lg font-medium text-zinc-100"
           >
             {product.title}
-          </motion.h3>
+          </h3>
         </div>
         
-        <motion.div 
-          layoutId={`price-${product.id}`}
+        <div
           className="flex flex-col items-end shrink-0 mt-0.5"
         >
           {isOnSale ? (
@@ -214,9 +208,9 @@ function ProductCard({ product, onClick }: ProductCardProps) {
               {formatPrice(product.base_price)}
             </span>
           )}
-        </motion.div>
-      </motion.div>
-    </motion.div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -353,8 +347,11 @@ export default function ProductGrid({ products }: ProductGridProps) {
             onClick={closeOverlay}
           >
             <motion.div
-              layoutId={`card-${selectedProduct.id}`}
-              className={`relative w-full max-w-5xl h-full md:h-[80vh] flex flex-col md:flex-row bg-[#0c0c24] overflow-hidden rounded-2xl shadow-2xl transition-all ring-1 ${
+              initial={{ scale: 0.92, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 30 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className={`relative w-full max-w-5xl h-full md:h-[80vh] flex flex-col md:flex-row bg-[#0c0c24] overflow-hidden rounded-2xl shadow-2xl ring-1 ${
                 RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS]?.cardRing || RARITY_TIERS.common.cardRing
               }`}
               style={{
@@ -376,8 +373,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
               {/* Image Panel & Thumbnail Strip */}
               <div className="relative w-full md:w-1/2 h-[45vw] md:h-full bg-[#111136] shrink-0 flex flex-col justify-between">
                 <div className="relative flex-1 w-full overflow-hidden">
-                  <motion.img
-                    layoutId={`image-${selectedProduct.id}`}
+                  <img
                     src={selectedColor ? selectedColor.image_url : (selectedImages[selectedImageIdx] || selectedProduct.image_url || '')}
                     alt={selectedProduct.title}
                     className="w-full h-full object-cover"
@@ -412,13 +408,12 @@ export default function ProductGrid({ products }: ProductGridProps) {
               {/* Info Panel — no layoutId here to avoid ghost pointer-event layers after exit */}
               <div className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 overflow-y-auto">
                 {/* Category & Rarity Badge */}
-                <motion.div className="flex flex-wrap items-center gap-2 mb-3 shrink-0">
-                  <motion.span
-                    layoutId={`category-${selectedProduct.id}`}
+                <div className="flex flex-wrap items-center gap-2 mb-3 shrink-0">
+                  <span
                     className="text-xs uppercase tracking-widest text-zinc-500 font-semibold"
                   >
                     {selectedProduct.category || 'Sneaker'}
-                  </motion.span>
+                  </span>
                   <span 
                     style={{ 
                       backgroundColor: `${(RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).colorHex}15`, 
@@ -430,19 +425,17 @@ export default function ProductGrid({ products }: ProductGridProps) {
                     <span>{(RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).emoji}</span>
                     <span>{(RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).label}</span>
                   </span>
-                </motion.div>
+                </div>
 
                 {/* Title */}
-                <motion.h3
-                  layoutId={`title-${selectedProduct.id}`}
+                <h3
                   className="text-3xl md:text-4xl font-black text-white mb-3 uppercase tracking-tight leading-tight shrink-0"
                 >
                   {selectedProduct.title}
-                </motion.h3>
+                </h3>
 
                 {/* Price tag with Sale Support */}
-                <motion.div 
-                  layoutId={`price-${selectedProduct.id}`}
+                <div
                   className="flex items-baseline gap-2 mb-6 shrink-0"
                 >
                   {selectedProduct.sale_price !== null && selectedProduct.sale_price !== undefined && selectedProduct.sale_price < selectedProduct.base_price ? (
@@ -462,7 +455,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
                       {formatPrice(selectedProduct.base_price)}
                     </span>
                   )}
-                </motion.div>
+                </div>
 
                 {/* Interactive Color/Design Swatches */}
                 {selectedProduct.colors && selectedProduct.colors.length > 0 && (
