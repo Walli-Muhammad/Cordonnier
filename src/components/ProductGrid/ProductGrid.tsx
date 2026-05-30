@@ -50,6 +50,52 @@ const HUTE_SIZES: SizeRow[] = [
 ];
 
 // =============================================
+// CS:GO-Inspired Premium Rarity Tier Configuration
+// =============================================
+const RARITY_TIERS = {
+  common: {
+    label: 'Cordonnier Base',
+    badgeClass: 'bg-zinc-500/10 text-zinc-400 border border-zinc-500/25',
+    cardRing: 'ring-zinc-800/40 group-hover:ring-zinc-650',
+    shadowGlow: 'hover:shadow-[0_0_20px_rgba(113,113,122,0.15)]',
+    colorHex: '#71717a',
+    emoji: '⬜'
+  },
+  restricted: {
+    label: 'Cordonnier Craft',
+    badgeClass: 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30',
+    cardRing: 'ring-cyan-900/30 group-hover:ring-cyan-500/50',
+    shadowGlow: 'hover:shadow-[0_0_25px_rgba(6,182,212,0.25)]',
+    colorHex: '#06b6d4',
+    emoji: '🟦'
+  },
+  classified: {
+    label: 'Cordonnier Édition',
+    badgeClass: 'bg-violet-500/15 text-violet-400 border border-violet-500/30',
+    cardRing: 'ring-violet-900/30 group-hover:ring-violet-500/50',
+    shadowGlow: 'hover:shadow-[0_0_30px_rgba(139,92,246,0.35)]',
+    colorHex: '#8b5cf6',
+    emoji: '🟣'
+  },
+  covert: {
+    label: 'Cordonnier Rare',
+    badgeClass: 'bg-red-500/15 text-red-400 border border-red-500/30',
+    cardRing: 'ring-red-950/40 group-hover:ring-red-650/60',
+    shadowGlow: 'hover:shadow-[0_0_35px_rgba(239,68,68,0.45)]',
+    colorHex: '#ef4444',
+    emoji: '🔴'
+  },
+  contraband: {
+    label: 'Cordonnier Légendaire',
+    badgeClass: 'bg-amber-500/20 text-amber-400 border border-amber-500/40 animate-pulse',
+    cardRing: 'ring-amber-500/20 group-hover:ring-amber-500/80',
+    shadowGlow: 'hover:shadow-[0_0_40px_rgba(245,158,11,0.55)]',
+    colorHex: '#f59e0b',
+    emoji: '🟡'
+  }
+};
+
+// =============================================
 // Dynamic Hover-Fade Product Card Component
 // =============================================
 interface ProductCardProps {
@@ -79,6 +125,13 @@ function ProductCard({ product, onClick }: ProductCardProps) {
     return () => clearInterval(interval);
   }, [hovered, images]);
 
+  const rarityKey = product.rarity || 'common';
+  const rarity = RARITY_TIERS[rarityKey as keyof typeof RARITY_TIERS] || RARITY_TIERS.common;
+
+  // Sale info calculations
+  const isOnSale = product.sale_price !== null && product.sale_price !== undefined && product.sale_price < product.base_price;
+  const discountPercent = isOnSale ? Math.round((1 - (product.sale_price || 0) / product.base_price) * 100) : 0;
+
   return (
     <motion.div
       layoutId={`card-${product.id}`}
@@ -90,7 +143,7 @@ function ProductCard({ product, onClick }: ProductCardProps) {
     >
       <motion.div
         layoutId={`image-container-${product.id}`}
-        className="relative aspect-square w-full overflow-hidden bg-[#111136] rounded-xl ring-1 ring-indigo-900/30"
+        className={`relative aspect-square w-full overflow-hidden bg-[#111136] rounded-xl ring-1 transition-all duration-300 ${rarity.cardRing} ${rarity.shadowGlow}`}
       >
         <AnimatePresence mode="popLayout">
           <motion.img
@@ -105,12 +158,27 @@ function ProductCard({ product, onClick }: ProductCardProps) {
           />
         </AnimatePresence>
 
-        {/* POD Badge */}
-        {product.is_pod && (
-          <span className="absolute top-3 left-3 bg-indigo-500 text-white text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full z-10">
-            Custom
-          </span>
-        )}
+        {/* Sale & POD Badges */}
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+          {isOnSale && (
+            <span className="bg-red-600 text-white text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.5)] animate-pulse">
+              -{discountPercent}% OFF
+            </span>
+          )}
+          {product.is_pod && (
+            <span className="bg-indigo-600 text-white text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow">
+              Custom
+            </span>
+          )}
+        </div>
+
+        {/* Rarity Small Corner Badge */}
+        <span 
+          style={{ backgroundColor: rarity.colorHex }}
+          className="absolute bottom-3 right-3 text-white text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded shadow z-10"
+        >
+          {rarity.emoji} {rarity.label.split(' ')[1] || rarity.label}
+        </span>
       </motion.div>
 
       <motion.div
@@ -120,9 +188,9 @@ function ProductCard({ product, onClick }: ProductCardProps) {
         <div className="flex flex-col gap-0.5">
           <motion.span
             layoutId={`category-${product.id}`}
-            className="text-xs uppercase tracking-widest text-zinc-500"
+            className="text-[10px] uppercase tracking-widest text-zinc-500 font-medium"
           >
-            {product.category || 'Sneaker'}
+            {product.category || 'Sneaker'} · <span style={{ color: rarity.colorHex }} className="font-bold">{rarity.label}</span>
           </motion.span>
           <motion.h3
             layoutId={`title-${product.id}`}
@@ -131,12 +199,22 @@ function ProductCard({ product, onClick }: ProductCardProps) {
             {product.title}
           </motion.h3>
         </div>
-        <motion.span
+        
+        <motion.div 
           layoutId={`price-${product.id}`}
-          className="text-sm font-light text-zinc-400 mt-0.5 shrink-0"
+          className="flex flex-col items-end shrink-0 mt-0.5"
         >
-          {formatPrice(product.base_price)}
-        </motion.span>
+          {isOnSale ? (
+            <>
+              <span className="text-[10px] line-through text-zinc-650 font-mono">{formatPrice(product.base_price)}</span>
+              <span className="text-sm font-bold text-indigo-400 font-mono">{formatPrice(product.sale_price || 0)}</span>
+            </>
+          ) : (
+            <span className="text-sm font-light text-zinc-400 font-mono">
+              {formatPrice(product.base_price)}
+            </span>
+          )}
+        </motion.div>
       </motion.div>
     </motion.div>
   );
@@ -157,6 +235,9 @@ export default function ProductGrid({ products }: ProductGridProps) {
   const [sizeUnit, setSizeUnit] = useState<'metric' | 'imperial'>('metric');
   const [sizeError, setSizeError] = useState(false);
 
+  // Selected Color Swatch variant state
+  const [selectedColor, setSelectedColor] = useState<{ color_name: string; color_hex: string; image_url: string } | null>(null);
+
   const filteredProducts = selectedCategory
     ? products.filter((p) => p.category?.toLowerCase() === selectedCategory.toLowerCase())
     : products;
@@ -169,6 +250,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
     setActiveTab('overview');
     setSelectedSize(null);
     setSizeError(false);
+    setSelectedColor(null);
   }, [selectedId]);
 
   const handleAddToCart = (product: Product) => {
@@ -178,19 +260,23 @@ export default function ProductGrid({ products }: ProductGridProps) {
       return;
     }
 
+    // Compute dynamic pricing discounts
+    const isOnSale = product.sale_price !== null && product.sale_price !== undefined && product.sale_price < product.base_price;
+    const finalBasePrice = isOnSale ? (product.sale_price || product.base_price) : product.base_price;
+
     addItem({
       productId: product.id,
       productTitle: product.title,
-      productImage: product.image_url,
-      variantId: `${product.id}_${selectedSize || 'default'}`,
+      productImage: selectedColor ? selectedColor.image_url : product.image_url,
+      variantId: `${product.id}_${selectedSize || 'default'}_${selectedColor ? selectedColor.color_name.replace(/\s+/g, '-') : 'default'}`,
       variant: {
         size: selectedSize ? `EU ${selectedSize}` : null,
-        color: null,
-        color_hex: null,
+        color: selectedColor ? selectedColor.color_name : null,
+        color_hex: selectedColor ? selectedColor.color_hex : null,
         sku: null,
         price_delta: 0,
       },
-      basePrice: product.base_price,
+      basePrice: finalBasePrice,
       quantity: 1,
       isPod: product.is_pod,
       podCustomizations: null,
@@ -246,7 +332,12 @@ export default function ProductGrid({ products }: ProductGridProps) {
           >
             <motion.div
               layoutId={`card-${selectedProduct.id}`}
-              className="relative w-full max-w-5xl h-full md:h-[80vh] flex flex-col md:flex-row bg-[#0d0d2b] overflow-hidden rounded-2xl shadow-2xl shadow-indigo-950/50 ring-1 ring-indigo-900/30"
+              className={`relative w-full max-w-5xl h-full md:h-[80vh] flex flex-col md:flex-row bg-[#0c0c24] overflow-hidden rounded-2xl shadow-2xl transition-all ring-1 ${
+                RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS]?.cardRing || RARITY_TIERS.common.cardRing
+              }`}
+              style={{
+                boxShadow: `0 0 60px -15px ${(RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).colorHex}25`
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -265,7 +356,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
                 <div className="relative flex-1 w-full overflow-hidden">
                   <motion.img
                     layoutId={`image-${selectedProduct.id}`}
-                    src={selectedImages[selectedImageIdx] || selectedProduct.image_url || ''}
+                    src={selectedColor ? selectedColor.image_url : (selectedImages[selectedImageIdx] || selectedProduct.image_url || '')}
                     alt={selectedProduct.title}
                     className="w-full h-full object-cover"
                   />
@@ -282,9 +373,11 @@ export default function ProductGrid({ products }: ProductGridProps) {
                     {selectedImages.map((img, idx) => (
                       <button
                         key={img}
-                        onClick={() => setSelectedImageIdx(idx)}
+                        onClick={() => { setSelectedImageIdx(idx); setSelectedColor(null); }}
                         className={`relative w-14 h-14 rounded-lg overflow-hidden border-2 shrink-0 transition-all ${
-                          selectedImageIdx === idx ? 'border-indigo-500 scale-95 shadow' : 'border-zinc-800 hover:border-zinc-700'
+                          selectedImageIdx === idx && selectedColor === null 
+                            ? 'border-indigo-500 scale-95 shadow' 
+                            : 'border-zinc-800 hover:border-zinc-700'
                         }`}
                       >
                         <img src={img} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
@@ -299,26 +392,105 @@ export default function ProductGrid({ products }: ProductGridProps) {
                 layoutId={`info-${selectedProduct.id}`}
                 className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 overflow-y-auto"
               >
-                <motion.span
-                  layoutId={`category-${selectedProduct.id}`}
-                  className="text-sm uppercase tracking-widest text-indigo-400 mb-3 inline-block"
-                >
-                  {selectedProduct.category || 'Sneaker'}
-                </motion.span>
+                {/* Category & Rarity Badge */}
+                <motion.div className="flex flex-wrap items-center gap-2 mb-3 shrink-0">
+                  <motion.span
+                    layoutId={`category-${selectedProduct.id}`}
+                    className="text-xs uppercase tracking-widest text-zinc-500 font-semibold"
+                  >
+                    {selectedProduct.category || 'Sneaker'}
+                  </motion.span>
+                  <span 
+                    style={{ 
+                      backgroundColor: `${(RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).colorHex}15`, 
+                      color: (RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).colorHex, 
+                      borderColor: `${(RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).colorHex}35` 
+                    }}
+                    className="text-[9px] uppercase font-black tracking-wider px-2.5 py-0.5 rounded border flex items-center gap-1 select-none"
+                  >
+                    <span>{(RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).emoji}</span>
+                    <span>{(RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).label}</span>
+                  </span>
+                </motion.div>
 
+                {/* Title */}
                 <motion.h3
                   layoutId={`title-${selectedProduct.id}`}
-                  className="text-3xl md:text-4xl font-black text-white mb-3 uppercase tracking-tight leading-tight"
+                  className="text-3xl md:text-4xl font-black text-white mb-3 uppercase tracking-tight leading-tight shrink-0"
                 >
                   {selectedProduct.title}
                 </motion.h3>
 
-                <motion.span
+                {/* Price tag with Sale Support */}
+                <motion.div 
                   layoutId={`price-${selectedProduct.id}`}
-                  className="text-xl font-light text-zinc-300 mb-6 block"
+                  className="flex items-baseline gap-2 mb-6 shrink-0"
                 >
-                  {formatPrice(selectedProduct.base_price)}
-                </motion.span>
+                  {selectedProduct.sale_price !== null && selectedProduct.sale_price !== undefined && selectedProduct.sale_price < selectedProduct.base_price ? (
+                    <>
+                      <span className="text-2xl font-black text-indigo-400 font-mono">
+                        {formatPrice(selectedProduct.sale_price)}
+                      </span>
+                      <span className="text-sm line-through text-zinc-650 font-mono">
+                        {formatPrice(selectedProduct.base_price)}
+                      </span>
+                      <span className="bg-red-600/10 text-red-500 border border-red-500/20 text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider animate-pulse ml-2">
+                        Sale
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-xl font-light text-zinc-300 font-mono">
+                      {formatPrice(selectedProduct.base_price)}
+                    </span>
+                  )}
+                </motion.div>
+
+                {/* Interactive Color/Design Swatches */}
+                {selectedProduct.colors && selectedProduct.colors.length > 0 && (
+                  <div className="mb-6 shrink-0 bg-zinc-950/20 p-3.5 rounded-xl border border-zinc-900">
+                    <span className="text-[10px] uppercase tracking-widest text-zinc-550 mb-2.5 block font-bold">
+                      Design Colorway: <span className="text-zinc-200 font-semibold">{selectedColor ? selectedColor.color_name : 'Default'}</span>
+                    </span>
+                    <div className="flex gap-2.5 items-center flex-wrap">
+                      {/* Default swatch */}
+                      <button
+                        onClick={() => setSelectedColor(null)}
+                        className={`w-8 h-8 rounded-full border-2 transition-all flex items-center justify-center overflow-hidden shrink-0 ${
+                          selectedColor === null 
+                            ? 'border-indigo-500 scale-105 shadow-[0_0_10px_rgba(99,102,241,0.5)]' 
+                            : 'border-zinc-800 hover:border-zinc-700'
+                        }`}
+                        title="Main Design"
+                      >
+                        <img src={selectedProduct.image_url || ''} alt="" className="w-full h-full object-cover" />
+                      </button>
+
+                      {/* Dynamic Color Swatches */}
+                      {selectedProduct.colors.map((c, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setSelectedColor(c)}
+                          className="w-8 h-8 rounded-full border-2 transition-all relative shrink-0"
+                          style={{ 
+                            borderColor: selectedColor && selectedColor.color_name === c.color_name 
+                              ? (RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).colorHex 
+                              : 'rgba(63,63,70,0.3)',
+                            boxShadow: selectedColor && selectedColor.color_name === c.color_name 
+                              ? `0 0 12px ${(RARITY_TIERS[selectedProduct.rarity as keyof typeof RARITY_TIERS] || RARITY_TIERS.common).colorHex}50` 
+                              : 'none',
+                            transform: selectedColor && selectedColor.color_name === c.color_name ? 'scale(1.08)' : 'none'
+                          }}
+                          title={c.color_name}
+                        >
+                          <span 
+                            className="absolute inset-0.5 rounded-full border border-black/20 block"
+                            style={{ backgroundColor: c.color_hex }}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Sizing/Overview Tab Switchers */}
                 {selectedProduct.category?.toLowerCase() === 'hute' && (
@@ -428,7 +600,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
                         </tbody>
                       </table>
                     </div>
-                    <p className="text-[10px] text-zinc-600 italic mt-2 font-light">
+                    <p className="text-[10px] text-zinc-650 italic mt-2 font-light">
                       *Might got 1-2mm Difference
                     </p>
                   </div>
@@ -473,14 +645,41 @@ export default function ProductGrid({ products }: ProductGridProps) {
                   </div>
                 )}
 
+                {/* Stock Indicator Levels */}
+                {selectedProduct.show_stock && selectedProduct.stock_count !== undefined && (
+                  <div className="mb-6 shrink-0 flex items-center gap-2 text-xs select-none">
+                    {selectedProduct.stock_count <= 0 ? (
+                      <>
+                        <span className="w-2 h-2 rounded-full bg-red-600 shrink-0 block" />
+                        <span className="text-red-500 font-bold uppercase tracking-wider text-[10px]">Sold Out</span>
+                      </>
+                    ) : selectedProduct.stock_count <= 10 ? (
+                      <>
+                        <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping shrink-0 block" />
+                        <span className="text-amber-400 font-bold uppercase tracking-wider text-[10px]">
+                          ⚡ Limited Stock: Only {selectedProduct.stock_count} pairs left!
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 block animate-pulse" />
+                        <span className="text-zinc-500 font-medium text-[10px] uppercase tracking-widest">
+                          Inventory: {selectedProduct.stock_count} sneakers remaining
+                        </span>
+                      </>
+                    )}
+                  </div>
+                )}
+
                 {/* Add to Cart — Magnetic Pull */}
                 <MagneticButton className="self-start mt-auto">
                   <button
+                    disabled={!!selectedProduct.show_stock && selectedProduct.stock_count !== undefined && selectedProduct.stock_count <= 0}
                     data-cursor="add"
                     onClick={() => handleAddToCart(selectedProduct)}
-                    className="px-10 py-4 bg-white text-black font-semibold uppercase tracking-wider rounded-full hover:bg-zinc-200 active:scale-95 transition-all"
+                    className="px-10 py-4 bg-white text-black font-semibold uppercase tracking-wider rounded-full hover:bg-zinc-200 active:scale-95 transition-all disabled:bg-zinc-800 disabled:text-zinc-600 disabled:cursor-not-allowed"
                   >
-                    Add to Cart
+                    {selectedProduct.show_stock && selectedProduct.stock_count !== undefined && selectedProduct.stock_count <= 0 ? 'Sold Out' : 'Add to Cart'}
                   </button>
                 </MagneticButton>
               </motion.div>

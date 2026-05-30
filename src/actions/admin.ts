@@ -13,6 +13,11 @@ export interface CreateProductInput {
   is_pod: boolean;
   image_url: string | null;
   images?: string[];
+  rarity?: string;
+  sale_price?: number | null;
+  stock_count?: number;
+  show_stock?: boolean;
+  colors?: { color_name: string; color_hex: string; image_url: string }[];
 }
 
 export interface CreateProductResult {
@@ -46,6 +51,11 @@ export async function createProduct(
       image_url:   input.image_url || null,
       images:      input.images || [],
       is_active:   true,
+      rarity:      input.rarity || 'common',
+      sale_price:  input.sale_price !== undefined ? input.sale_price : null,
+      stock_count: input.stock_count !== undefined ? input.stock_count : 100,
+      show_stock:  input.show_stock !== undefined ? input.show_stock : true,
+      colors:      input.colors || [],
     })
     .select('id')
     .single();
@@ -94,6 +104,11 @@ export async function updateProduct(
       image_url:   input.image_url || null,
       images:      input.images || [],
       updated_at:  new Date().toISOString(),
+      rarity:      input.rarity || 'common',
+      sale_price:  input.sale_price !== undefined ? input.sale_price : null,
+      stock_count: input.stock_count !== undefined ? input.stock_count : 100,
+      show_stock:  input.show_stock !== undefined ? input.show_stock : true,
+      colors:      input.colors || [],
     })
     .eq('id', id);
 

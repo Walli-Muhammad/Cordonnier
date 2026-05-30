@@ -50,6 +50,12 @@ export interface Product {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  // Sizing, Pricing, Rarity, Stock & Color Swatch additions
+  rarity?: 'common' | 'restricted' | 'classified' | 'covert' | 'contraband';
+  sale_price?: number | null;
+  stock_count?: number;
+  show_stock?: boolean;
+  colors?: { color_name: string; color_hex: string; image_url: string }[] | null;
 }
 
 export interface Variant {
