@@ -2,34 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (pointer: fine) {
-  * {
-    cursor: none;
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 0.7; transform: translateY(0); }
-}
-
 :root {
-  /* Brand Palette — Deep Navy → Indigo → Violet */
-  --brand-bg-deep:    #07071a;
-  --brand-bg-mid:     #0d0d2b;
-  --brand-bg-surface: #111136;
-  --brand-accent-1:   #6366f1; /* indigo-500 */
-  --brand-accent-2:   #8b5cf6; /* violet-500 */
-  --brand-accent-3:   #06b6d4; /* cyan-500  */
-  --brand-glow:       rgba(99, 102, 241, 0.18);
+  /* Brand Palette — Premium Light Luxury Retail */
+  --brand-bg-deep:    #f8fafc;
+  --brand-bg-mid:     #ffffff;
+  --brand-bg-surface: #f1f5f9;
+  --brand-accent-1:   #4f46e5; /* indigo-600 */
+  --brand-accent-2:   #7c3aed; /* violet-600 */
+  --brand-accent-3:   #0284c7; /* sky-600 */
+  --brand-glow:       rgba(79, 70, 229, 0.12);
 }
 
 body {
-  color: #f4f4f8;
+  color: #0f172a;
   background:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.22) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 40% at 90% 80%,  rgba(139,92,246,0.14) 0%, transparent 60%),
-    linear-gradient(180deg, #07071a 0%, #0b0b24 40%, #0d0d2b 100%);
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(79, 70, 229, 0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 90% 80%,  rgba(124, 58, 237, 0.05) 0%, transparent 60%),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #ffffff 100%);
   background-attachment: fixed;
 }
 
@@ -39,7 +28,7 @@ body {
   }
 }
 
-/* lenis required styles */
+/* Lenis smooth scroll compatibility */
 html.lenis, html.lenis body {
   height: auto;
 }

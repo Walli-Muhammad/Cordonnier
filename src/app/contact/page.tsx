@@ -25,17 +25,17 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-300 pt-32 pb-24 px-6">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pt-32 pb-24 px-6">
       <div className="max-w-4xl mx-auto">
         
         <div className="mb-12">
-          <span className="text-xs uppercase tracking-[0.2em] font-bold text-indigo-400 block mb-3">
+          <span className="text-xs uppercase tracking-[0.2em] font-extrabold text-indigo-600 block mb-3">
             WALIM LTD Communication
           </span>
-          <h1 className="text-4xl font-black text-white uppercase tracking-tight mb-3">
+          <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tight mb-3">
             Contact WALIM LTD
           </h1>
-          <p className="text-zinc-400 text-sm">
+          <p className="text-slate-600 text-sm">
             Get in touch with our team for customer inquiries, supplier partnerships, or business opportunities.
           </p>
         </div>
@@ -43,21 +43,21 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           
           {/* Contact Form */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 shadow-xl">
-            <h2 className="text-lg font-bold text-white uppercase tracking-tight mb-6">Send Us A Message</h2>
+          <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-xl">
+            <h2 className="text-lg font-bold text-slate-900 uppercase tracking-tight mb-6">Send Us A Message</h2>
             
             {submitted ? (
-              <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-6 text-center">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center">
+                <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-xl font-bold">
                   ✓
                 </div>
-                <h3 className="text-base font-bold text-white mb-2">Message Received</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-4">
-                  Thank you for contacting WALIM LTD. Our team will review your inquiry and respond to <strong className="text-white">{form.email}</strong> shortly.
+                <h3 className="text-base font-bold text-slate-900 mb-2">Message Received</h3>
+                <p className="text-xs text-slate-600 leading-relaxed mb-4">
+                  Thank you for contacting WALIM LTD. Our team will review your inquiry and respond to <strong className="text-slate-900">{form.email}</strong> shortly.
                 </p>
                 <button
                   onClick={() => { setSubmitted(false); setForm({ name: '', email: '', subject: 'General Inquiry', message: '' }); }}
-                  className="px-5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-semibold rounded-full transition-colors"
+                  className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-full transition-colors"
                 >
                   Send Another Message
                 </button>
@@ -65,8 +65,8 @@ export default function ContactPage() {
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 block mb-1.5">
-                    Your Name <span className="text-indigo-400">*</span>
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
+                    Your Name <span className="text-indigo-600">*</span>
                   </label>
                   <input
                     type="text"
@@ -74,13 +74,13 @@ export default function ContactPage() {
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="Jane Doe"
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-600 transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 block mb-1.5">
-                    Email Address <span className="text-indigo-400">*</span>
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
+                    Email Address <span className="text-indigo-600">*</span>
                   </label>
                   <input
                     type="email"
@@ -88,18 +88,18 @@ export default function ContactPage() {
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     placeholder="jane@example.com"
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-600 transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 block mb-1.5">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
                     Inquiry Subject
                   </label>
                   <select
                     value={form.subject}
                     onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-indigo-600 transition-colors"
                   >
                     <option value="General Inquiry">General Inquiry</option>
                     <option value="Supplier Partnership">Supplier Partnership</option>
@@ -109,8 +109,8 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 block mb-1.5">
-                    Message <span className="text-indigo-400">*</span>
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
+                    Message <span className="text-indigo-600">*</span>
                   </label>
                   <textarea
                     required
@@ -118,14 +118,14 @@ export default function ContactPage() {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder="How can we help you?"
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-600 transition-colors resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 bg-white hover:bg-zinc-200 text-black font-bold uppercase text-xs tracking-[0.15em] rounded-full transition-all mt-2 active:scale-95 disabled:opacity-50"
+                  className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase text-xs tracking-[0.15em] rounded-full transition-all shadow-md mt-2 active:scale-95 disabled:opacity-50"
                 >
                   {loading ? 'Sending Message...' : 'Send Message'}
                 </button>
@@ -135,40 +135,47 @@ export default function ContactPage() {
 
           {/* Official Company Details */}
           <div className="flex flex-col justify-between space-y-6">
-            <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-8 space-y-5">
-              <h2 className="text-lg font-bold text-white uppercase tracking-tight">WALIM LTD Official Information</h2>
+            <div className="bg-white border border-slate-200 rounded-3xl p-8 space-y-5 shadow-xl">
+              <h2 className="text-lg font-bold text-slate-900 uppercase tracking-tight">WALIM LTD Official Contact</h2>
               
               <div className="space-y-4 text-sm">
                 <div>
-                  <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold block mb-1">Company Name</span>
-                  <p className="text-white font-bold">WALIM LTD</p>
+                  <span className="text-xs uppercase tracking-widest text-slate-500 font-semibold block mb-1">Company Name</span>
+                  <p className="text-slate-900 font-bold">WALIM LTD</p>
                 </div>
 
                 <div>
-                  <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold block mb-1">UK Registration Number</span>
-                  <p className="text-indigo-400 font-mono font-bold">17383282</p>
+                  <span className="text-xs uppercase tracking-widest text-slate-500 font-semibold block mb-1">UK Registration Number</span>
+                  <p className="text-indigo-600 font-mono font-bold">17383282</p>
                 </div>
 
                 <div>
-                  <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold block mb-1">Registered Office Address</span>
-                  <p className="text-zinc-300 text-xs leading-relaxed">
+                  <span className="text-xs uppercase tracking-widest text-slate-500 font-semibold block mb-1">Registered Office Address</span>
+                  <p className="text-slate-700 text-xs leading-relaxed">
                     Office 20409 182-184 High Street North, East Ham, London, United Kingdom, E6 2JA
                   </p>
                 </div>
 
                 <div>
-                  <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold block mb-1">Primary Business Contact</span>
-                  <a href="mailto:walim204@gmail.com" className="text-indigo-400 hover:underline font-mono">
+                  <span className="text-xs uppercase tracking-widest text-slate-500 font-semibold block mb-1">Official Telephone</span>
+                  <a href="tel:+447446373847" className="text-indigo-600 font-mono font-bold hover:underline">
+                    +44 7446 373847
+                  </a>
+                </div>
+
+                <div>
+                  <span className="text-xs uppercase tracking-widest text-slate-500 font-semibold block mb-1">Official Email</span>
+                  <a href="mailto:walim204@gmail.com" className="text-indigo-600 hover:underline font-mono">
                     walim204@gmail.com
                   </a>
                 </div>
               </div>
             </div>
 
-            <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-6 text-xs text-zinc-400 space-y-2">
-              <span className="font-bold text-white block uppercase tracking-wider">Interested in supplying products?</span>
+            <div className="bg-indigo-50 border border-indigo-200 rounded-3xl p-6 text-xs text-slate-700 space-y-2">
+              <span className="font-bold text-indigo-900 block uppercase tracking-wider">Interested in supplying products?</span>
               <p>Manufacturers, wholesalers, and distributors can submit a partnership inquiry via our supplier portal.</p>
-              <Link href="/suppliers" className="text-indigo-400 font-bold hover:underline inline-block pt-1">
+              <Link href="/suppliers" className="text-indigo-600 font-bold hover:underline inline-block pt-1">
                 Go to Supplier Application &rarr;
               </Link>
             </div>

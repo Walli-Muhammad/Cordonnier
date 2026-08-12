@@ -29,47 +29,47 @@ const FAQS = [
   },
   {
     q: 'How can I contact WALIM LTD directly?',
-    a: 'You can email our official corporate contact at walim204@gmail.com or send a message via our website contact form.',
+    a: 'You can call our team at +44 7446 373847, email our official corporate contact at walim204@gmail.com, or send a message via our website contact form.',
   },
 ];
 
 export default function FAQPage() {
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-300 pt-32 pb-24 px-6">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pt-32 pb-24 px-6">
       <div className="max-w-4xl mx-auto">
         
         <div className="mb-12">
-          <span className="text-xs uppercase tracking-[0.2em] font-bold text-indigo-400 block mb-3">
+          <span className="text-xs uppercase tracking-[0.2em] font-extrabold text-indigo-600 block mb-3">
             Help &amp; Knowledge Base
           </span>
-          <h1 className="text-4xl font-black text-white uppercase tracking-tight mb-3">
+          <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tight mb-3">
             Frequently Asked Questions
           </h1>
-          <p className="text-zinc-400 text-sm">
+          <p className="text-slate-600 text-sm">
             Common questions about WALIM LTD retail operations, orders, and supplier partnerships.
           </p>
         </div>
 
         <div className="space-y-6 mb-16">
           {FAQS.map((item, idx) => (
-            <div key={idx} className="bg-zinc-900 border border-zinc-800/80 rounded-2xl p-6">
-              <h3 className="text-base font-bold text-white mb-2 flex items-start gap-3">
-                <span className="text-indigo-400 font-mono text-sm">0{idx + 1}.</span>
+            <div key={idx} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-md shadow-slate-900/5">
+              <h3 className="text-base font-bold text-slate-900 mb-2 flex items-start gap-3">
+                <span className="text-indigo-600 font-mono text-sm">0{idx + 1}.</span>
                 <span>{item.q}</span>
               </h3>
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed pl-8">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed pl-8">
                 {item.a}
               </p>
             </div>
           ))}
         </div>
 
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-8 text-center">
-          <h3 className="text-lg font-bold text-white mb-2">Still have questions?</h3>
-          <p className="text-xs text-zinc-500 mb-6">Our team is available to answer any additional inquiries.</p>
+        <div className="bg-white border border-slate-200 rounded-3xl p-8 text-center shadow-xl">
+          <h3 className="text-lg font-bold text-slate-900 mb-2">Still have questions?</h3>
+          <p className="text-xs text-slate-500 mb-6">Our team is available to answer any additional inquiries.</p>
           <Link
             href="/contact"
-            className="inline-block px-6 py-3 bg-white hover:bg-zinc-200 text-black font-bold uppercase text-xs tracking-wider rounded-full transition-colors"
+            className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase text-xs tracking-wider rounded-full transition-colors shadow-md"
           >
             Contact Support &rarr;
           </Link>

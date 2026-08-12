@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
-import CustomCursor from '@/components/Interactions/CustomCursor';
 import Navbar from '@/components/Navbar/Navbar';
 import CartDrawer from '@/components/Cart/CartDrawer';
 import CheckoutModal from '@/components/Checkout/CheckoutModal';
@@ -12,8 +11,8 @@ import Footer from '@/components/Footer/Footer';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'Sole Craft | Cordonnier',
-  description: 'Design your own custom sneakers. Premium print-on-demand footwear, crafted to order.',
+  title: 'WALIM LTD | Online Retail & Digital Commerce',
+  description: 'WALIM LTD (UK Company No. 17383282) is a UK-registered e-commerce company operating digital retail channels and supplier partnership networks.',
 };
 
 export default function RootLayout({
@@ -22,13 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} font-sans text-zinc-50 antialiased selection:bg-indigo-500 selection:text-white`}>
-        {/* 
-          Global App Chrome — mounted OUTSIDE SmoothScrollProvider to guarantee 
-          z-index supremacy and avoid transform/filter containing block clipping.
-        */}
-        <CustomCursor />
+    <html lang="en" className="scroll-smooth">
+      <body className={`${inter.variable} font-sans bg-slate-50 text-slate-900 antialiased selection:bg-indigo-600 selection:text-white`}>
         <Navbar />
         <CartDrawer />
         <CheckoutModal />

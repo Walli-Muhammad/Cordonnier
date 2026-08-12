@@ -43,7 +43,7 @@ const FOOTER_LINKS = {
 
 export default function Footer() {
   return (
-    <footer className="bg-zinc-950 border-t border-zinc-900 text-zinc-400">
+    <footer className="bg-slate-900 border-t border-slate-800 text-slate-300">
 
       {/* Main Footer Grid */}
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -54,38 +54,48 @@ export default function Footer() {
             <Link href="/" className="inline-block text-white font-black uppercase tracking-[0.2em] text-xl mb-3">
               WALIM LTD
             </Link>
-            <p className="text-zinc-500 text-xs font-semibold uppercase tracking-widest mb-4">
+            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4">
               Online Retail &amp; Digital Commerce
             </p>
-            <p className="text-zinc-500 text-sm leading-relaxed max-w-sm mb-6">
+            <p className="text-slate-400 text-sm leading-relaxed max-w-sm mb-6">
               WALIM LTD is a UK-registered private limited company focused on developing online retail operations, digital storefronts, and supplier partnership networks.
             </p>
 
-            {/* Official Business Credentials & Address Box */}
-            <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 text-xs space-y-2 max-w-sm">
-              <div className="flex items-center gap-2 text-zinc-300">
-                <span className="font-semibold text-white">Company Name:</span>
+            {/* Official Credentials, Phone & Address Box */}
+            <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 text-xs space-y-3 max-w-sm shadow-xl">
+              <div className="flex items-center gap-2 text-slate-300">
+                <span className="font-bold text-white">Company Name:</span>
                 <span>WALIM LTD</span>
               </div>
-              <div className="flex items-center gap-2 text-zinc-300">
-                <span className="font-semibold text-white">UK Company No:</span>
-                <span className="font-mono text-indigo-400">17383282</span>
+              <div className="flex items-center gap-2 text-slate-300">
+                <span className="font-bold text-white">UK Company No:</span>
+                <span className="font-mono text-indigo-400 font-bold">17383282</span>
               </div>
-              <div className="flex items-center gap-2 text-zinc-300">
-                <span className="font-semibold text-white">Business Activity:</span>
+              <div className="flex items-center gap-2 text-slate-300">
+                <span className="font-bold text-white">Business Activity:</span>
                 <span>Online Retail &amp; E-Commerce</span>
               </div>
-              <div className="pt-2 border-t border-zinc-800 space-y-1">
-                <span className="font-semibold text-white block">Registered Office Address:</span>
-                <p className="text-zinc-400 text-[11px] leading-relaxed">
+              
+              <div className="pt-2 border-t border-slate-700 space-y-1">
+                <span className="font-bold text-white block">Registered Office Address:</span>
+                <p className="text-slate-300 text-[11px] leading-relaxed">
                   Office 20409 182-184 High Street North, East Ham, London, United Kingdom, E6 2JA
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-zinc-300 pt-2 border-t border-zinc-800">
-                <span className="font-semibold text-white">Official Contact:</span>
-                <a href="mailto:walim204@gmail.com" className="text-indigo-400 hover:underline">
-                  walim204@gmail.com
-                </a>
+
+              <div className="pt-2 border-t border-slate-700 space-y-1.5">
+                <div className="flex items-center gap-2 text-slate-300">
+                  <span className="font-bold text-white">Phone:</span>
+                  <a href="tel:+447446373847" className="text-indigo-400 hover:underline font-mono font-bold">
+                    +44 7446 373847
+                  </a>
+                </div>
+                <div className="flex items-center gap-2 text-slate-300">
+                  <span className="font-bold text-white">Email:</span>
+                  <a href="mailto:walim204@gmail.com" className="text-indigo-400 hover:underline font-mono">
+                    walim204@gmail.com
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -99,7 +109,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-zinc-500 hover:text-white transition-colors duration-200"
+                      className="text-sm text-slate-400 hover:text-white transition-colors duration-200"
                     >
                       {link.label}
                     </Link>
@@ -112,21 +122,21 @@ export default function Footer() {
       </div>
 
       {/* Bottom Legal Bar */}
-      <div className="border-t border-zinc-900 bg-black/40">
+      <div className="border-t border-slate-800 bg-slate-950">
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
 
           {/* Copyright & Registration */}
           <div className="text-center md:text-left">
-            <p className="text-zinc-500 text-xs">
+            <p className="text-slate-400 text-xs">
               &copy; {new Date().getFullYear()} WALIM LTD. Registered in England &amp; Wales (Company No. 17383282). All rights reserved.
             </p>
-            <p className="text-zinc-600 text-[11px] mt-1">
-              Registered Office: Office 20409 182-184 High Street North, East Ham, London, United Kingdom, E6 2JA.
+            <p className="text-slate-500 text-[11px] mt-1">
+              Office 20409 182-184 High Street North, East Ham, London, UK, E6 2JA &middot; Tel: +44 7446 373847
             </p>
           </div>
 
           {/* Legal links quick row */}
-          <div className="flex items-center gap-4 text-xs text-zinc-500">
+          <div className="flex items-center gap-4 text-xs text-slate-400">
             <Link href="/legal/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/legal/terms" className="hover:text-white transition-colors">Terms of Service</Link>
             <Link href="/legal/shipping" className="hover:text-white transition-colors">Shipping</Link>

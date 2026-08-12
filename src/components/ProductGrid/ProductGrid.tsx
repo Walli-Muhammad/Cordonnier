@@ -51,10 +51,10 @@ export default function ProductGrid({ products }: ProductGridProps) {
       {/* Section Header & Category Filter Pills */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
-          <span className="text-xs uppercase tracking-[0.2em] font-bold text-indigo-400 block mb-2">
+          <span className="text-xs uppercase tracking-[0.2em] font-bold text-indigo-600 block mb-2">
             Online Catalog
           </span>
-          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-white">
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-slate-900">
             Featured Products
           </h2>
         </div>
@@ -65,8 +65,8 @@ export default function ProductGrid({ products }: ProductGridProps) {
             onClick={() => setSelectedCategoryFilter('ALL')}
             className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition-all whitespace-nowrap ${
               selectedCategoryFilter === 'ALL'
-                ? 'bg-white text-black border-white shadow-lg'
-                : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white hover:border-zinc-700'
+                ? 'bg-slate-900 text-white border-slate-900 shadow-md'
+                : 'bg-white text-slate-600 border-slate-200 hover:text-slate-900 hover:border-slate-300'
             }`}
           >
             All Products ({products.length})
@@ -77,8 +77,8 @@ export default function ProductGrid({ products }: ProductGridProps) {
               onClick={() => setSelectedCategoryFilter(cat)}
               className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition-all whitespace-nowrap ${
                 selectedCategoryFilter === cat
-                  ? 'bg-white text-black border-white shadow-lg'
-                  : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white hover:border-zinc-700'
+                  ? 'bg-slate-900 text-white border-slate-900 shadow-md'
+                  : 'bg-white text-slate-600 border-slate-200 hover:text-slate-900 hover:border-slate-300'
               }`}
             >
               {cat}
@@ -89,8 +89,8 @@ export default function ProductGrid({ products }: ProductGridProps) {
 
       {/* Product Cards Grid */}
       {filteredProducts.length === 0 ? (
-        <div className="py-16 text-center bg-zinc-900/30 border border-zinc-800/60 rounded-2xl">
-          <p className="text-zinc-400 text-sm">No products found in this category.</p>
+        <div className="py-16 text-center bg-white border border-slate-200 rounded-2xl shadow-sm">
+          <p className="text-slate-500 text-sm">No products found in this category.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -101,11 +101,11 @@ export default function ProductGrid({ products }: ProductGridProps) {
             return (
               <div
                 key={product.id}
-                className="group bg-zinc-900/50 border border-zinc-800/80 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-zinc-700 hover:shadow-2xl hover:-translate-y-1"
+                className="group bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-indigo-400 hover:shadow-2xl hover:-translate-y-1"
               >
                 <div>
                   {/* Image Container */}
-                  <Link href={`/shop/${product.id}`} className="relative aspect-square block bg-zinc-950 overflow-hidden">
+                  <Link href={`/shop/${product.id}`} className="relative aspect-square block bg-slate-100 overflow-hidden">
                     {product.image_url ? (
                       <img
                         src={product.image_url}
@@ -113,14 +113,14 @@ export default function ProductGrid({ products }: ProductGridProps) {
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-xs text-zinc-600 uppercase tracking-widest font-mono">
+                      <div className="w-full h-full flex items-center justify-center text-xs text-slate-400 uppercase tracking-widest font-mono">
                         No Image Available
                       </div>
                     )}
 
                     {/* Badges */}
                     <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
-                      <span className="bg-zinc-950/80 backdrop-blur-md border border-zinc-800 text-zinc-300 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
+                      <span className="bg-white/90 backdrop-blur-md border border-slate-200 text-slate-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm">
                         {product.category}
                       </span>
                       {isOnSale && (
@@ -133,19 +133,19 @@ export default function ProductGrid({ products }: ProductGridProps) {
 
                   {/* Body Content */}
                   <div className="p-6">
-                    <div className="flex items-center justify-between text-xs text-zinc-500 mb-1">
+                    <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
                       <span>{product.brand || 'WALIM LTD'}</span>
                       {product.sku && <span className="font-mono text-[10px]">SKU: {product.sku}</span>}
                     </div>
 
-                    <Link href={`/shop/${product.id}`} className="block group-hover:text-indigo-400 transition-colors">
-                      <h3 className="text-base font-bold text-white mb-2 leading-snug line-clamp-1">
+                    <Link href={`/shop/${product.id}`} className="block group-hover:text-indigo-600 transition-colors">
+                      <h3 className="text-base font-bold text-slate-900 mb-2 leading-snug line-clamp-1">
                         {product.title}
                       </h3>
                     </Link>
 
                     {product.description && (
-                      <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed mb-4">
+                      <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-4">
                         {product.description}
                       </p>
                     )}
@@ -153,19 +153,19 @@ export default function ProductGrid({ products }: ProductGridProps) {
                 </div>
 
                 {/* Footer / Price & Add to Cart */}
-                <div className="px-6 pb-6 pt-2 border-t border-zinc-800/40 flex items-center justify-between">
+                <div className="px-6 pb-6 pt-2 border-t border-slate-100 flex items-center justify-between">
                   <div className="flex items-baseline gap-2">
                     {isOnSale ? (
                       <>
-                        <span className="text-base font-black text-white font-mono">
+                        <span className="text-base font-black text-slate-900 font-mono">
                           {formatCurrency(product.sale_price || 0, product.currency)}
                         </span>
-                        <span className="text-xs line-through text-zinc-500 font-mono">
+                        <span className="text-xs line-through text-slate-400 font-mono">
                           {formatCurrency(product.base_price, product.currency)}
                         </span>
                       </>
                     ) : (
-                      <span className="text-base font-black text-white font-mono">
+                      <span className="text-base font-black text-slate-900 font-mono">
                         {formatCurrency(product.base_price, product.currency)}
                       </span>
                     )}
@@ -173,7 +173,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
 
                   <button
                     onClick={(e) => handleAddToCart(product, e)}
-                    className="px-4 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-bold uppercase tracking-wider rounded-full transition-colors active:scale-95 shadow"
+                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold uppercase tracking-wider rounded-full transition-colors active:scale-95 shadow"
                   >
                     + Add to Cart
                   </button>
