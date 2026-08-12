@@ -1,17 +1,40 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getCategories } from '@/lib/supabase';
 
 export const metadata: Metadata = {
   title: 'Product Categories | WALIM LTD',
   description: 'Explore WALIM LTD product categories: Footwear, Clothing, Accessories, Home & Lifestyle, and Pet Products.',
 };
 
-export const dynamic = 'force-dynamic';
+const CATEGORY_CHANNELS = [
+  {
+    name: 'Footwear',
+    description: 'Shoes, casual footwear, and lifestyle footwear products.',
+    icon: '👟',
+  },
+  {
+    name: 'Clothing',
+    description: 'Apparel, knitwear, hoodies, and everyday clothing items.',
+    icon: '👕',
+  },
+  {
+    name: 'Accessories',
+    description: 'Bags, small leather goods, headwear, and lifestyle accessories.',
+    icon: '🎒',
+  },
+  {
+    name: 'Home & Lifestyle',
+    description: 'Living decor, textiles, candles, and accent home items.',
+    icon: '🏠',
+  },
+  {
+    name: 'Pet Products',
+    description: 'Pet gear, harnesses, supplies, and care accessories.',
+    icon: '🐾',
+  },
+];
 
-export default async function CategoriesPage() {
-  const categories = await getCategories();
-
+export default function CategoriesPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 pb-24 px-6">
       <div className="max-w-7xl mx-auto">
@@ -25,54 +48,58 @@ export default async function CategoriesPage() {
             Product Categories
           </h1>
           <p className="text-zinc-400 text-sm md:text-base leading-relaxed">
-            WALIM LTD is structured as a multi-category online retail platform capable of supporting diverse consumer product lines.
+            WALIM LTD is structured as a multi-category online retail platform. Our database and fulfillment architecture support diverse consumer product lines as supplier partnerships are established.
           </p>
         </div>
 
-        {/* Category Showcase Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((cat) => (
+        {/* Category Framework Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {CATEGORY_CHANNELS.map((cat) => (
             <div
-              key={cat.id}
-              className="bg-zinc-900/60 border border-zinc-800 rounded-3xl overflow-hidden flex flex-col justify-between transition-all hover:border-indigo-500/40 hover:shadow-2xl"
+              key={cat.name}
+              className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-8 flex flex-col justify-between transition-all hover:border-indigo-500/40 hover:shadow-2xl"
             >
-              <div className="relative h-64 bg-zinc-950 overflow-hidden">
-                {cat.image_url ? (
-                  <img
-                    src={cat.image_url}
-                    alt={cat.name}
-                    className="w-full h-full object-cover opacity-60 hover:scale-105 transition-transform duration-500"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center font-mono text-xs text-zinc-600">
-                    Category Cover
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-6 right-6">
-                  <span className="bg-indigo-600/90 text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full inline-block mb-2">
-                    Active Channel
-                  </span>
-                  <h2 className="text-2xl font-bold text-white uppercase tracking-tight">
-                    {cat.name}
-                  </h2>
+              <div>
+                <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl mb-6 font-bold">
+                  {cat.icon}
                 </div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-indigo-400 block mb-2">
+                  Category Channel
+                </span>
+                <h2 className="text-2xl font-bold text-white uppercase tracking-tight mb-3">
+                  {cat.name}
+                </h2>
+                <p className="text-xs text-zinc-400 leading-relaxed mb-6">
+                  {cat.description}
+                </p>
               </div>
 
-              <div className="p-6 flex-1 flex flex-col justify-between">
-                <p className="text-xs text-zinc-400 leading-relaxed mb-6">
-                  {cat.description || `Browse quality ${cat.name.toLowerCase()} products available on the WALIM LTD platform.`}
-                </p>
-
+              <div className="pt-4 border-t border-zinc-800/80">
                 <Link
-                  href={`/shop?category=${encodeURIComponent(cat.name)}`}
+                  href="/suppliers"
                   className="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white text-center text-xs font-bold uppercase tracking-wider rounded-full transition-colors inline-block"
                 >
-                  Browse {cat.name} &rarr;
+                  Supply {cat.name} &rarr;
                 </Link>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Supplier CTA */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 sm:p-12 text-center max-w-4xl mx-auto shadow-2xl space-y-4">
+          <h3 className="text-2xl font-bold uppercase tracking-tight text-white">Do you manufacture or distribute products in these categories?</h3>
+          <p className="text-xs text-zinc-400 max-w-lg mx-auto leading-relaxed">
+            Submit a supplier application to onboard your product catalog onto the WALIM LTD platform.
+          </p>
+          <div className="pt-2">
+            <Link
+              href="/suppliers"
+              className="inline-block px-8 py-3.5 bg-white hover:bg-zinc-200 text-black font-bold uppercase text-xs tracking-[0.15em] rounded-full transition-all shadow-xl"
+            >
+              Become a Supplier
+            </Link>
+          </div>
         </div>
 
       </div>

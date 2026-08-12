@@ -33,10 +33,10 @@ export default function ContactPage() {
             WALIM LTD Communication
           </span>
           <h1 className="text-4xl font-black text-white uppercase tracking-tight mb-3">
-            Contact &amp; Inquiries
+            Contact WALIM LTD
           </h1>
           <p className="text-zinc-400 text-sm">
-            Reach out to WALIM LTD for customer support, supplier partnerships, or corporate inquiries.
+            Get in touch with our team for customer inquiries, supplier partnerships, or business opportunities.
           </p>
         </div>
 
@@ -103,8 +103,8 @@ export default function ContactPage() {
                   >
                     <option value="General Inquiry">General Inquiry</option>
                     <option value="Supplier Partnership">Supplier Partnership</option>
-                    <option value="Customer Support & Orders">Customer Support &amp; Orders</option>
-                    <option value="Corporate / Media">Corporate &amp; Media</option>
+                    <option value="Customer Support">Customer Support</option>
+                    <option value="Marketplace Opportunity">Marketplace &amp; E-Commerce Opportunity</option>
                   </select>
                 </div>
 
@@ -135,10 +135,10 @@ export default function ContactPage() {
 
           {/* Official Company Details */}
           <div className="flex flex-col justify-between space-y-6">
-            <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-8">
-              <h2 className="text-lg font-bold text-white uppercase tracking-tight mb-6">WALIM LTD Contact Information</h2>
+            <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-8 space-y-5">
+              <h2 className="text-lg font-bold text-white uppercase tracking-tight">WALIM LTD Official Information</h2>
               
-              <div className="space-y-5 text-sm">
+              <div className="space-y-4 text-sm">
                 <div>
                   <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold block mb-1">Company Name</span>
                   <p className="text-white font-bold">WALIM LTD</p>
@@ -150,22 +150,24 @@ export default function ContactPage() {
                 </div>
 
                 <div>
+                  <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold block mb-1">Registered Office Address</span>
+                  <p className="text-zinc-300 text-xs leading-relaxed">
+                    Office 20409 182-184 High Street North, East Ham, London, United Kingdom, E6 2JA
+                  </p>
+                </div>
+
+                <div>
                   <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold block mb-1">Primary Business Contact</span>
                   <a href="mailto:walim204@gmail.com" className="text-indigo-400 hover:underline font-mono">
                     walim204@gmail.com
                   </a>
                 </div>
-
-                <div>
-                  <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold block mb-1">Registered Office</span>
-                  <p className="text-zinc-400 text-xs">Registered in England &amp; Wales. Official registered office records maintained with Companies House UK.</p>
-                </div>
               </div>
             </div>
 
             <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-6 text-xs text-zinc-400 space-y-2">
-              <span className="font-bold text-white block uppercase tracking-wider">Looking to become a supplier?</span>
-              <p>Manufacturers and wholesalers can submit a partnership application through our dedicated portal.</p>
+              <span className="font-bold text-white block uppercase tracking-wider">Interested in supplying products?</span>
+              <p>Manufacturers, wholesalers, and distributors can submit a partnership inquiry via our supplier portal.</p>
               <Link href="/suppliers" className="text-indigo-400 font-bold hover:underline inline-block pt-1">
                 Go to Supplier Application &rarr;
               </Link>

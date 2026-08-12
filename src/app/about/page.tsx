@@ -52,6 +52,13 @@ export default function AboutPage() {
             </div>
 
             <div className="sm:col-span-2 pt-4 border-t border-zinc-800/80">
+              <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold block mb-1">Registered Office Address</span>
+              <p className="text-zinc-200 text-sm">
+                Office 20409 182-184 High Street North, East Ham, London, United Kingdom, E6 2JA
+              </p>
+            </div>
+
+            <div className="sm:col-span-2 pt-2 border-t border-zinc-800/80">
               <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold block mb-1">Official Business Contact</span>
               <a href="mailto:walim204@gmail.com" className="text-indigo-400 hover:underline font-mono text-sm">
                 walim204@gmail.com
@@ -65,47 +72,45 @@ export default function AboutPage() {
           <section className="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-8">
             <h2 className="text-2xl font-bold text-white mb-4">Our Business &amp; Operations</h2>
             <p className="text-zinc-400 text-sm leading-relaxed mb-4">
-              WALIM LTD is an e-commerce enterprise focused on building digital retail channels and multi-category online storefronts. The company operates digital sales channels to serve retail customers directly, while establishing fulfillment structures with product suppliers and wholesale partners.
+              WALIM LTD is an online retail company developing its digital commerce operations. We are focused on building relationships with customers, suppliers, manufacturers, wholesalers, and marketplace partners.
             </p>
             <p className="text-zinc-400 text-sm leading-relaxed">
-              Initial product offerings focus on footwear and lifestyle merchandise, with planned category expansions into clothing, accessories, home &amp; lifestyle items, and pet products as supplier networks grow.
+              Our generalized e-commerce platform architecture is structured to support multi-category product lines including Footwear, Clothing, Accessories, Home &amp; Lifestyle items, and Pet Products as commercial partnerships are established.
             </p>
           </section>
 
-          {/* Transparent Capabilities: Current vs Future */}
+          {/* Transparent Capabilities: Current Stage */}
           <section className="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-8">
             <h2 className="text-2xl font-bold text-white mb-6">Current Operations &amp; Roadmap</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-black/30 border border-zinc-800 rounded-xl p-6">
-                <span className="text-xs uppercase font-bold text-indigo-400 tracking-widest block mb-2">Current Capability</span>
-                <h3 className="text-base font-bold text-white mb-3">Direct Online Retail Platform</h3>
+                <span className="text-xs uppercase font-bold text-indigo-400 tracking-widest block mb-2">Current Stage</span>
+                <h3 className="text-base font-bold text-white mb-3">Platform Development &amp; Supplier Onboarding</h3>
                 <ul className="text-xs text-zinc-400 space-y-2 leading-relaxed">
-                  <li>&bull; Direct-to-consumer digital product store</li>
-                  <li>&bull; Generalized multi-category product database</li>
-                  <li>&bull; Supplier application and onboarding portal</li>
-                  <li>&bull; Customer account management and tracking</li>
+                  <li>&bull; E-commerce infrastructure and backend ready</li>
+                  <li>&bull; Supplier application and onboarding portal active</li>
+                  <li>&bull; Partner and inquiry intake open</li>
                 </ul>
               </div>
 
               <div className="bg-black/30 border border-zinc-800 rounded-xl p-6">
-                <span className="text-xs uppercase font-bold text-indigo-400 tracking-widest block mb-2">Future Expansion</span>
-                <h3 className="text-base font-bold text-white mb-3">Multi-Channel &amp; Supplier Scaling</h3>
+                <span className="text-xs uppercase font-bold text-indigo-400 tracking-widest block mb-2">Commercial Launch</span>
+                <h3 className="text-base font-bold text-white mb-3">Live Catalog &amp; Multi-Channel Growth</h3>
                 <ul className="text-xs text-zinc-400 space-y-2 leading-relaxed">
-                  <li>&bull; Direct marketplace syncing (eBay, Amazon, Etsy)</li>
-                  <li>&bull; Automated supplier inventory routing</li>
-                  <li>&bull; Expanded consumer product categories</li>
-                  <li>&bull; Live payment gateway integrations</li>
+                  <li>&bull; Live product listing upon supplier approval</li>
+                  <li>&bull; Marketplace integrations (eBay, Amazon, Etsy)</li>
+                  <li>&bull; Multi-category retail order fulfillment</li>
                 </ul>
               </div>
             </div>
           </section>
 
-          {/* Truthful Disclaimer */}
+          {/* Transparency Statement */}
           <section className="bg-indigo-950/20 border border-indigo-500/20 rounded-2xl p-8">
             <h3 className="text-base font-bold text-indigo-300 uppercase tracking-wide mb-2">Transparency &amp; Governance Statement</h3>
             <p className="text-xs text-zinc-400 leading-relaxed">
-              WALIM LTD is committed to complete commercial transparency. All corporate details displayed on this website represent accurate UK registration records. We clearly distinguish between active platform features and future technical integrations.
+              WALIM LTD is committed to complete commercial transparency. All corporate information and addresses displayed represent official UK registration records.
             </p>
           </section>
         </div>
@@ -113,8 +118,8 @@ export default function AboutPage() {
         {/* CTA Banner */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 p-8 bg-zinc-900 border border-zinc-800 rounded-2xl">
           <div>
-            <h3 className="text-lg font-bold text-white">Interested in partnering with WALIM LTD?</h3>
-            <p className="text-xs text-zinc-500 mt-1">Submit a supplier application or contact our corporate team.</p>
+            <h3 className="text-lg font-bold text-white">Interested in working with WALIM LTD?</h3>
+            <p className="text-xs text-zinc-500 mt-1">Submit a supplier application or contact our team.</p>
           </div>
           <div className="flex gap-4">
             <Link

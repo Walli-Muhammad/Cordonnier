@@ -4,17 +4,17 @@ import Link from 'next/link';
 
 const FOOTER_LINKS = {
   shop: {
-    label: 'Explore Catalog',
+    label: 'Platform & Catalog',
     links: [
-      { label: 'All Products', href: '/shop' },
+      { label: 'Browse Platform Catalog', href: '/shop' },
       { label: 'Product Categories', href: '/categories' },
-      { label: 'Footwear Collection', href: '/shop?category=Footwear' },
-      { label: 'Clothing & Apparel', href: '/shop?category=Clothing' },
-      { label: 'Accessories', href: '/shop?category=Accessories' },
+      { label: 'Footwear Channel', href: '/categories' },
+      { label: 'Clothing Channel', href: '/categories' },
+      { label: 'Accessories Channel', href: '/categories' },
     ],
   },
   partners: {
-    label: 'Suppliers & Business',
+    label: 'Suppliers & Partners',
     links: [
       { label: 'Become a Supplier', href: '/suppliers' },
       { label: 'Supplier Application', href: '/suppliers#application-form' },
@@ -26,7 +26,6 @@ const FOOTER_LINKS = {
     label: 'Company Information',
     links: [
       { label: 'About WALIM LTD', href: '/about' },
-      { label: 'Corporate Overview', href: '/about#corporate' },
       { label: 'Contact Us', href: '/contact' },
       { label: 'Help & FAQ', href: '/faq' },
     ],
@@ -50,7 +49,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-8">
 
-          {/* Brand Column */}
+          {/* Brand & Address Column */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block text-white font-black uppercase tracking-[0.2em] text-xl mb-3">
               WALIM LTD
@@ -59,10 +58,10 @@ export default function Footer() {
               Online Retail &amp; Digital Commerce
             </p>
             <p className="text-zinc-500 text-sm leading-relaxed max-w-sm mb-6">
-              WALIM LTD is a UK-registered private limited company focused on operating digital retail channels, multi-category e-commerce platforms, and supplier partnership networks.
+              WALIM LTD is a UK-registered private limited company focused on developing online retail operations, digital storefronts, and supplier partnership networks.
             </p>
 
-            {/* Official Business Credentials Box */}
+            {/* Official Business Credentials & Address Box */}
             <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4 text-xs space-y-2 max-w-sm">
               <div className="flex items-center gap-2 text-zinc-300">
                 <span className="font-semibold text-white">Company Name:</span>
@@ -76,7 +75,13 @@ export default function Footer() {
                 <span className="font-semibold text-white">Business Activity:</span>
                 <span>Online Retail &amp; E-Commerce</span>
               </div>
-              <div className="flex items-center gap-2 text-zinc-300 pt-1 border-t border-zinc-800">
+              <div className="pt-2 border-t border-zinc-800 space-y-1">
+                <span className="font-semibold text-white block">Registered Office Address:</span>
+                <p className="text-zinc-400 text-[11px] leading-relaxed">
+                  Office 20409 182-184 High Street North, East Ham, London, United Kingdom, E6 2JA
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-zinc-300 pt-2 border-t border-zinc-800">
                 <span className="font-semibold text-white">Official Contact:</span>
                 <a href="mailto:walim204@gmail.com" className="text-indigo-400 hover:underline">
                   walim204@gmail.com
@@ -116,7 +121,7 @@ export default function Footer() {
               &copy; {new Date().getFullYear()} WALIM LTD. Registered in England &amp; Wales (Company No. 17383282). All rights reserved.
             </p>
             <p className="text-zinc-600 text-[11px] mt-1">
-              Registered Office in the United Kingdom. Operating online retail channels &amp; digital commerce platforms.
+              Registered Office: Office 20409 182-184 High Street North, East Ham, London, United Kingdom, E6 2JA.
             </p>
           </div>
 
