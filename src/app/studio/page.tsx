@@ -1,15 +1,5 @@
-import type { Metadata } from 'next';
-import CanvasEditor from '@/components/Studio/CanvasEditor';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = {
-  title: 'Studio | Cordonnier',
-  description: 'Design your own premium wear with our native POD studio.',
-};
-
-export default function StudioPage() {
-  return (
-    <main className="w-full h-screen bg-[#09090b] selection:bg-white selection:text-black">
-      <CanvasEditor />
-    </main>
-  );
+export default function StudioRedirectPage() {
+  redirect('/shop');
 }

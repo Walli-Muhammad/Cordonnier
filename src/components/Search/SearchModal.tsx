@@ -1,171 +1,126 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUIStore } from '@/store/ui';
-import { supabase, type Product } from '@/lib/supabase';
+import { getProducts, formatCurrency, type Product } from '@/lib/supabase';
+import Link from 'next/link';
 
 export default function SearchModal() {
-  const { isSearchOpen, closeSearch, toggleSearch } = useUIStore();
+  const { isSearchOpen, closeSearch } = useUIStore();
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  // Focus input when modal opens
   useEffect(() => {
     if (isSearchOpen) {
-      // Small timeout to allow animation to start before capturing focus
-      setTimeout(() => inputRef.current?.focus(), 100);
-    } else {
-      setQuery('');
-      setResults([]);
+      setLoading(true);
+      getProducts().then((res) => {
+        setProducts(res);
+        setLoading(false);
+      });
     }
   }, [isSearchOpen]);
 
-  // Global Cmd/Ctrl + K shortcut
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        toggleSearch();
-      }
-      if (e.key === 'Escape') {
-        closeSearch();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [toggleSearch, closeSearch]);
+  if (!isSearchOpen) return null;
 
-  // Live search debouncing
-  useEffect(() => {
-    if (!query.trim()) {
-      setResults([]);
-      setIsLoading(false);
-      return;
-    }
-
-    const fetchResults = async () => {
-      setIsLoading(true);
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('is_active', true)
-        .ilike('title', `%${query}%`)
-        .limit(5);
-
-      if (!error && data) {
-        setResults(data);
-      }
-      setIsLoading(false);
-    };
-
-    const debounceId = setTimeout(fetchResults, 250);
-    return () => clearTimeout(debounceId);
-  }, [query]);
+  const filteredProducts = query.trim() === ''
+    ? products.slice(0, 4) // Default recommendations
+    : products.filter((p) =>
+        p.title.toLowerCase().includes(query.toLowerCase()) ||
+        p.category.toLowerCase().includes(query.toLowerCase()) ||
+        (p.description && p.description.toLowerCase().includes(query.toLowerCase())) ||
+        (p.brand && p.brand.toLowerCase().includes(query.toLowerCase())) ||
+        (p.sku && p.sku.toLowerCase().includes(query.toLowerCase()))
+      );
 
   return (
     <AnimatePresence>
-      {isSearchOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeSearch}
-            className="fixed inset-0 z-[990] bg-black/60 backdrop-blur-sm"
-          />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[1100] bg-zinc-950/80 backdrop-blur-md flex items-start justify-center pt-20 px-4"
+        onClick={closeSearch}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: -20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -20, scale: 0.98 }}
+          className="relative w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Search Input Bar */}
+          <div className="flex items-center px-6 py-4 border-b border-zinc-800 gap-3">
+            <svg className="w-5 h-5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              type="text"
+              autoFocus
+              placeholder="Search products by title, SKU, brand, or category..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="flex-1 bg-transparent text-white placeholder-zinc-500 text-sm focus:outline-none"
+            />
+            {query && (
+              <button onClick={() => setQuery('')} className="text-zinc-500 hover:text-white text-xs">
+                Clear
+              </button>
+            )}
+            <button onClick={closeSearch} className="p-1 text-zinc-500 hover:text-white rounded-lg">
+              ESC
+            </button>
+          </div>
 
-          {/* Modal Container */}
-          <div className="fixed inset-0 z-[991] flex items-start justify-center pt-[15vh] px-4 pointer-events-none">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-xl bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
-            >
-              {/* Search Header */}
-              <div className="flex items-center gap-3 px-4 py-4 border-b border-zinc-800">
-                <svg className="w-5 h-5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  placeholder="Search products..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="flex-1 bg-transparent border-none text-white focus:outline-none placeholder:text-zinc-500 text-lg"
-                />
-                <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded bg-zinc-800 text-zinc-400 text-[10px] font-medium tracking-widest">
-                  ESC
+          {/* Search Results */}
+          <div className="p-6 max-h-[60vh] overflow-y-auto">
+            {loading ? (
+              <p className="text-xs text-zinc-500 uppercase tracking-widest text-center py-8">Searching product catalog...</p>
+            ) : filteredProducts.length === 0 ? (
+              <div className="py-8 text-center">
+                <p className="text-sm text-zinc-400">No products found matching &quot;{query}&quot;</p>
+                <p className="text-xs text-zinc-600 mt-1">Try searching for &quot;Footwear&quot;, &quot;Clothing&quot;, or &quot;Accessories&quot;.</p>
+              </div>
+            ) : (
+              <div>
+                <p className="text-[10px] uppercase font-bold tracking-[0.2em] text-zinc-500 mb-4">
+                  {query ? `Search Results (${filteredProducts.length})` : 'Featured Catalog Recommendations'}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {filteredProducts.map((p) => (
+                    <Link
+                      key={p.id}
+                      href={`/shop/${p.id}`}
+                      onClick={closeSearch}
+                      className="flex items-center gap-3 p-3 bg-zinc-950/60 hover:bg-zinc-800/80 border border-zinc-800/80 rounded-xl transition-all group"
+                    >
+                      {p.image_url ? (
+                        <img src={p.image_url} alt={p.title} className="w-12 h-12 rounded-lg object-cover bg-zinc-800 shrink-0" />
+                      ) : (
+                        <div className="w-12 h-12 rounded-lg bg-zinc-800 shrink-0 flex items-center justify-center text-xs text-zinc-500">
+                          No IMG
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[9px] uppercase font-semibold text-indigo-400 tracking-wider block">
+                          {p.category}
+                        </span>
+                        <h4 className="text-xs font-semibold text-white truncate group-hover:text-indigo-300 transition-colors">
+                          {p.title}
+                        </h4>
+                        <p className="text-xs font-mono text-zinc-400 mt-0.5">
+                          {formatCurrency(p.base_price, p.currency)}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </div>
-
-              {/* Results Area */}
-              <div className="max-h-[60vh] overflow-y-auto p-2">
-                {!query.trim() && (
-                  <div className="px-4 py-8 text-center text-sm text-zinc-500">
-                    Search by product title or keyword...
-                  </div>
-                )}
-                
-                {isLoading && query.trim() && (
-                  <div className="px-4 py-8 text-center text-sm text-zinc-500 flex justify-center items-center gap-2">
-                    <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
-                      <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" className="opacity-75" />
-                    </svg>
-                    Searching...
-                  </div>
-                )}
-
-                {!isLoading && query.trim() && results.length === 0 && (
-                  <div className="px-4 py-8 text-center text-sm text-zinc-500">
-                    No products found for &quot;{query}&quot;
-                  </div>
-                )}
-
-                {results.map((product) => (
-                  <button
-                    key={product.id}
-                    onClick={() => {
-                      closeSearch();
-                      // Next steps: Route to specific product detail view when built
-                      // e.g. router.push(`/?product=${product.id}`) or dispatch action
-                      document.getElementById(product.id)?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-zinc-800/50 transition-colors text-left group"
-                  >
-                    {product.image_url ? (
-                      <Image src={product.image_url} alt={product.title} width={48} height={48} className="w-12 h-12 rounded object-cover border border-zinc-800" />
-                    ) : (
-                      <div className="w-12 h-12 rounded bg-zinc-800 flex items-center justify-center border border-zinc-700">
-                        <svg className="w-5 h-5 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-white font-medium truncate">{product.title}</h4>
-                      <p className="text-zinc-400 text-sm">Rs {product.base_price.toLocaleString()}</p>
-                    </div>
-                    {product.is_pod && (
-                      <span className="shrink-0 text-[10px] font-bold tracking-widest text-indigo-400 bg-indigo-500/10 px-2 py-1 rounded">
-                        POD
-                      </span>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
+            )}
           </div>
-        </>
-      )}
+        </motion.div>
+      </motion.div>
     </AnimatePresence>
   );
 }
