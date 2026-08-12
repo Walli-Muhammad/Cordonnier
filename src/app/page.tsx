@@ -108,7 +108,7 @@ export default async function Home() {
 
       </section>
 
-      {/* 3. OPERATIONAL ROADMAP & MULTI-CHANNEL FOCUS */}
+      {/* 3. OPERATIONAL ROADMAP & OUR APPROACH */}
       <section className="py-24 px-6 max-w-7xl mx-auto w-full border-b border-slate-200/80">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
@@ -122,7 +122,7 @@ export default async function Home() {
               WALIM LTD is establishing digital retail infrastructure designed to operate both direct online storefronts and integrated sales on third-party digital marketplaces.
             </p>
             <p className="text-slate-600 text-sm leading-relaxed mb-8">
-              We are structuring our backend capabilities to support multi-category product lines including Footwear, Clothing, Accessories, Home &amp; Lifestyle items, and Pet Products.
+              We&apos;re building a flexible online retail platform designed to offer products across multiple consumer categories as our retail operations grow.
             </p>
             <div className="flex gap-4">
               <Link
@@ -135,40 +135,44 @@ export default async function Home() {
                 href="/suppliers"
                 className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-full transition-colors shadow-md"
               >
-                Supplier Onboarding
+                Partner With Us
               </Link>
             </div>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-3xl p-8 space-y-4 shadow-xl">
-            <h3 className="text-lg font-bold text-slate-900 uppercase tracking-tight mb-4 border-b border-slate-100 pb-3">
-              Official Corporate Record
-            </h3>
-            <div className="flex justify-between text-xs py-2 border-b border-slate-100">
-              <span className="text-slate-500 font-semibold uppercase">Company Name</span>
-              <span className="text-slate-900 font-bold">WALIM LTD</span>
+          {/* OUR APPROACH CARD */}
+          <div className="bg-white border border-slate-200 rounded-3xl p-8 space-y-6 shadow-xl">
+            <div className="border-b border-slate-100 pb-3">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-600 block mb-1">Our Strategy</span>
+              <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">
+                OUR APPROACH
+              </h3>
             </div>
-            <div className="flex justify-between text-xs py-2 border-b border-slate-100">
-              <span className="text-slate-500 font-semibold uppercase">UK Registration No</span>
-              <span className="text-indigo-600 font-mono font-bold">17383282</span>
-            </div>
-            <div className="flex justify-between text-xs py-2 border-b border-slate-100">
-              <span className="text-slate-500 font-semibold uppercase">Entity Type</span>
-              <span className="text-slate-700">Private Limited Company</span>
-            </div>
-            <div className="flex justify-between text-xs py-2 border-b border-slate-100">
-              <span className="text-slate-500 font-semibold uppercase">Phone</span>
-              <a href="tel:+447446373847" className="text-indigo-600 font-mono font-bold hover:underline">
-                +44 7446 373847
-              </a>
-            </div>
-            <div className="flex justify-between text-xs py-2">
-              <span className="text-slate-500 font-semibold uppercase">Official Contact</span>
-              <a href="mailto:walim204@gmail.com" className="text-indigo-600 hover:underline font-mono">
-                walim204@gmail.com
-              </a>
+            
+            <div className="space-y-4">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                <h4 className="text-sm font-bold text-slate-900 mb-1">Customer First</h4>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  We focus on convenient online shopping experiences and carefully selected products.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                <h4 className="text-sm font-bold text-slate-900 mb-1">Supplier Partnerships</h4>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  We welcome relationships with manufacturers, wholesalers, distributors and other product partners.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                <h4 className="text-sm font-bold text-slate-900 mb-1">Digital Commerce</h4>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  We develop flexible online retail channels designed to operate across digital marketplaces.
+                </p>
+              </div>
             </div>
           </div>
+
         </div>
       </section>
 

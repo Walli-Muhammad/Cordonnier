@@ -12,17 +12,6 @@ export default function Hero() {
 
       <div className="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center">
         
-        {/* Registration Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/90 border border-indigo-200/80 text-xs font-bold text-indigo-900 mb-8 backdrop-blur-md shadow-md shadow-indigo-900/5"
-        >
-          <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
-          <span>WALIM LTD &middot; UK Company No. 17383282</span>
-        </motion.div>
-
         {/* Title & Tagline */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -30,7 +19,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 uppercase tracking-tight leading-[1.08] mb-6 max-w-4xl"
         >
-          Online Retail &amp; Digital Commerce Platform
+          ONLINE RETAIL &amp; DIGITAL COMMERCE PLATFORM
         </motion.h1>
 
         {/* Description */}
@@ -40,7 +29,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl mb-10"
         >
-          WALIM LTD develops and operates online retail channels, building multi-category digital storefronts while collaborating with product suppliers and global digital marketplace partners.
+          WALIM LTD develops online retail channels and digital storefronts, connecting customers with products through modern e-commerce and marketplace platforms.
         </motion.p>
 
         {/* Action Buttons */}
@@ -54,14 +43,14 @@ export default function Hero() {
             href="/shop"
             className="w-full sm:w-auto px-9 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase text-xs tracking-[0.15em] rounded-full transition-all shadow-xl shadow-indigo-600/25 active:scale-95 text-center"
           >
-            Explore Products
+            EXPLORE OUR PLATFORM
           </Link>
 
           <Link
             href="/suppliers"
             className="w-full sm:w-auto px-9 py-4 bg-white hover:bg-slate-100 text-slate-900 font-bold uppercase text-xs tracking-[0.15em] rounded-full border border-slate-300 transition-all shadow-md active:scale-95 text-center"
           >
-            Become a Supplier
+            PARTNER WITH US
           </Link>
         </motion.div>
 
