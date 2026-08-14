@@ -6,7 +6,7 @@ const FOOTER_LINKS = {
   shop: {
     label: 'Platform & Catalog',
     links: [
-      { label: 'Browse Platform Catalog', href: '/shop' },
+      { label: 'Explore Our Platform', href: '/shop' },
       { label: 'Product Categories', href: '/categories' },
       { label: 'Footwear Channel', href: '/categories' },
       { label: 'Clothing Channel', href: '/categories' },
@@ -19,7 +19,6 @@ const FOOTER_LINKS = {
       { label: 'Become a Supplier', href: '/suppliers' },
       { label: 'Supplier Application', href: '/suppliers#application-form' },
       { label: 'Marketplace Partners', href: '/about#marketplaces' },
-      { label: 'Supplier Portal Sign In', href: '/supplier/login' },
     ],
   },
   company: {

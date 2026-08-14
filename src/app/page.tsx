@@ -121,8 +121,11 @@ export default async function Home() {
             <p className="text-slate-700 text-sm md:text-base leading-relaxed mb-4">
               WALIM LTD is establishing digital retail infrastructure designed to operate both direct online storefronts and integrated sales on third-party digital marketplaces.
             </p>
-            <p className="text-slate-600 text-sm leading-relaxed mb-8">
+            <p className="text-slate-600 text-sm leading-relaxed mb-4">
               We&apos;re building a flexible online retail platform designed to offer products across multiple consumer categories as our retail operations grow.
+            </p>
+            <p className="text-slate-600 text-sm leading-relaxed mb-8">
+              WALIM LTD is developing its presence across established online marketplaces, including eBay, as part of its planned retail operations.
             </p>
             <div className="flex gap-4">
               <Link

@@ -64,7 +64,7 @@ export default function Hero() {
           <div className="bg-white/90 border border-slate-200/80 rounded-2xl p-6 shadow-xl shadow-slate-900/5">
             <span className="text-xs uppercase tracking-widest text-indigo-600 font-extrabold block mb-1">01 / Retail Channels</span>
             <h3 className="text-sm font-bold text-slate-900 mb-1">Multi-Category Storefront</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">Direct digital retail catalog spanning footwear, clothing, accessories, and home items.</p>
+            <p className="text-xs text-slate-500 leading-relaxed">Developing digital retail channels for footwear, clothing, accessories, home items, and other consumer products.</p>
           </div>
 
           <div className="bg-white/90 border border-slate-200/80 rounded-2xl p-6 shadow-xl shadow-slate-900/5">
